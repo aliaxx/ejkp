@@ -6,7 +6,6 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\User;
-use common\models\Pengguna;
 
 /**
  * UserSearch represents the model behind the search form.
@@ -45,10 +44,8 @@ class UserSearch extends User
   //  public function search($params,$kodnegeri = null,$kodcawangan = null)
     public function search($params)
     {
-
-    $query = User::find();
-    //    $query = User::find()->joinWith(['createdByUser as createdUser','updatedByUser as updatedUser', 'subunit0']);
-
+       // $query = User::find()->joinWith(['updatedByUser']);
+       $query = User::find();
 
         $enum = \common\utilities\OptionHandler::render('PERANAN');
         asort($enum);
@@ -57,6 +54,9 @@ class UserSearch extends User
         $enum = \common\utilities\OptionHandler::render('DATA_FILTER');
         asort($enum);
         $fields['DATA_FILTER'] = implode(',', array_keys($enum));
+
+        // if ($kodnegeri) $query->andWhere(['{{%cawangan}}.kodnegeri' => $kodnegeri]);
+        // if ($kodcawangan) $query->andWhere(['{{%pengguna}}.kodcawangan' => $kodcawangan]);
 
         $sort = [
             'attributes' => [
@@ -102,12 +102,11 @@ class UserSearch extends User
             '{{%PENGGUNA}}.STATUS' => $this->STATUS,
         ]);
 
-
-         $query ->andFilterWhere(['like', 'LOWER({{%PENGGUNA}}.NOKP)', strtolower($this->NOKP)],true)
-            ->andFilterWhere(['like', 'LOWER(NAMA)', strtolower($this->NAMA)],true)
-            ->andFilterWhere(['like', '{{%SUBUNIT}}.ID', $this->SUBUNIT])
-            ->andFilterWhere(['like', 'LOWER({{createdUser}}.NAMA)', strtolower($this->PGNAKHIR)], true)
-            ->andFilterWhere(['like', 'LOWER({{updatedUser}}.NAMA)', strtolower($this->PGNAKHIR)], true);
+        $query->andFilterWhere(['like', '{{%PENGGUNA}}.NOKP', $this->NOKP])
+            ->andFilterWhere(['like', 'SUBUNIT', $this->SUBUNIT])
+            ->andFilterWhere(['like', 'NAMA', $this->NAMA])
+            ->andFilterWhere(['like', 'createdUser.NAMA', $this->PGNDAFTAR])
+            ->andFilterWhere(['like', 'updatedUser.NAMA', $this->PGNAKHIR]);
 
         return $dataProvider;
     }

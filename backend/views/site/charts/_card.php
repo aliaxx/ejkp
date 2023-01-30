@@ -10,11 +10,6 @@ $models = LawatanMain::find()->select(['IDMODULE', 'TOTAL' => 'count(*)'])
     ->andWhere(['between', 'TRKHMULA',$tahun.'/01/01 00:00:00', $tahun.'/12/31 23:59:59'])
     ->groupBy('IDMODULE')->all();
 
-
-
-    // var_dump($models);
-    // exit;
-
 //declare variable
 $mutu = 0;
 $vektor = 0;

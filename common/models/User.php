@@ -195,6 +195,8 @@ class User extends \common\models\Pengguna implements \yii\web\IdentityInterface
     public static function getPruser($username)
     {
         $sql = "Select * from C##MAJLIS.PRUSER where USERNAME  =  '$username'";
+        // var_dump($sql);
+        // exit;
         $get_data = \Yii::$app->db->createCommand($sql)->queryOne();
         return $get_data;
     }  

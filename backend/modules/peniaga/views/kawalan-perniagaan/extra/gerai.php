@@ -42,9 +42,7 @@ $url['list-petak'] = Url::to(['/option/penyelenggaraan/list-petak', 'locationid'
 
 $modelGerai->IDMODULE='KPN';
 
-// $modelGerai->lokasi=$model->lokasi0->LOCATION_NAME;
-$modelGerai->lokasi=$model->lokasi0->NAME;
-
+$modelGerai->lokasi=$model->lokasi0->LOCATION_NAME;
 
 // var_dump($lokasi);
 // exit;

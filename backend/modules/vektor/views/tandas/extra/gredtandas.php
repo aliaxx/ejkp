@@ -38,12 +38,17 @@ $data['KATPREMIS'] = ['',''];
 $source = Yii::$app->db->createCommand("SELECT * FROM TBPARAMETER_DETAIL WHERE KODJENIS = 1")->queryAll();
 $data['KATPREMIS'] = ArrayHelper::map($source, 'KODDETAIL', 'PRGN');
 
+// var_dump($gredtandas->markahtandas['total']);
+// exit;
+
 if($gredtandas->transtandasrec ){
     // var_dump($gredtandas->KATPREMIS );
     $jumlahmarkah = $gredtandas->markahtandas['total'];
     $gred = $gredtandas->markahtandas['gred'];
 
 }else {
+    // var_dump("hahhah");
+    // exit();
     $jumlahmarkah = '';
     $gred = '';
 }

@@ -148,7 +148,7 @@ class Pengguna extends \yii\db\ActiveRecord
     public function getUnit()
     {
         return $this->hasOne(\backend\modules\penyelenggaraan\models\ParamDetail::className(), ['KODDETAIL' => 'ID_KODUNIT'])
-            ->onCondition(['KODJENIS' => '23'])
+            ->onCondition(['KODJENIS' => '24'])
             ->viaTable('{{%SUBUNIT}}', ['ID' => 'SUBUNIT']);
     }
 

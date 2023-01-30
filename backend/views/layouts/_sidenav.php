@@ -81,27 +81,16 @@ $this->registerJs("
         ['label' => 'Parameter Bacaan Air Kolam', 'url' => ['/penyelenggaraan/kolam/bacaan-kolam'],//controller
             'active' => MenuHelper::isActive('penyelenggaraan/kolam/bacaan-kolam'),// path folder
             'visible' => $access->can('kolam-read')], //declare at access.php
-        ['label' => 'Parameter Kategori Tandas', 'items' => [ //NOR12012023
-            ['label' => 'Kategori Tandas', 'url' => ['/penyelenggaraan/tandas/kategori-tandas'],
-                'active' => MenuHelper::isActive('penyelenggaraan/tandas/kategori-tandas', 'controller'),
-                'visible' => $access->can('kategori-tandas-read')],
-            ['label' => 'Lokasi Tandas', 'url' => ['/penyelenggaraan/tandas/lokasi-tandas'],
-                'active' => MenuHelper::isActive('penyelenggaraan/tandas/lokasi-tandas', 'controller'),
-                'visible' => $access->can('lokasi-tandas-read')],
-        ]],    
       ];
 
-    //menu untuk integrasi
+//menu untuk integrasi
       $menu['integrasi'] = [ //path 
         ['label' => 'Integrasi Lesen', 'url' => ['/integrasi/lesen'],
             'active' => MenuHelper::isActive('integrasi/lesen'),
             'visible' => $access->can('lesen-read')],
-        ['label' => 'Integrasi Sewa', 'url' => ['/integrasi/sewa'],
+            ['label' => 'Integrasi Sewa', 'url' => ['/integrasi/sewa'],
             'active' => MenuHelper::isActive('integrasi/sewa'),
             'visible' => $access->can('sewa-read')],
-        ['label' => 'Integrasi SPPJ', 'url' => ['/integrasi/sppj'], //NOR17012023
-            'active' => MenuHelper::isActive('integrasi/sppj'),
-            'visible' => $access->can('sppj-read')],
       ];
 
 //menu untuk kawalan mutu makanan

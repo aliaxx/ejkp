@@ -97,9 +97,9 @@ $option['initialPreviewConfig'] = [];
             'NAMAPEKERJA',
             'NOKP',
             [
-                'attribute' => 'JENIS',
+                'attribute' => 'JANTINA',
                 'value' => function($sampel) {
-                    return OptionHandler::resolve('jantina', $sampel->JENIS);
+                    return OptionHandler::resolve('jantina', $sampel->JANTINA);
                 }
             ],
             [
@@ -200,7 +200,7 @@ $option['initialPreviewConfig'] = [];
         <div class="col-md-6">
             <?= $form->field($sampel, 'NAMAPEKERJA')->textInput(['maxlength' => true]) ?>
         
-            <?= $form->field($sampel, 'JENIS')->radioList(OptionHandler::render('jantina'), ['selector'=>'radio', 'inline'=>true]); ?>
+            <?= $form->field($sampel, 'JANTINA')->radioList(OptionHandler::render('jantina'), ['selector'=>'radio', 'inline'=>true]); ?>
 
             <?= $form->field($sampel, 'FHC')->radioList(OptionHandler::render('ty2-fhc'), ['selector'=>'radio', 'inline'=>true]); ?>
 

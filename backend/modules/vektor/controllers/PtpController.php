@@ -23,10 +23,6 @@ use backend\modules\vektor\models\SasaranPtp;
 use backend\modules\vektor\models\SasaranPtpSearch;
 use backend\modules\vektor\models\BekasPtp;
 use backend\modules\vektor\models\BekasPtpSearch;
-use backend\modules\vektor\models\PenguatkuasaanPtp;
-use backend\modules\vektor\models\PenguatkuasaanPtpSearch;
-use backend\modules\vektor\models\PenguatkuasaanBekasPtp;
-use backend\modules\vektor\models\PenguatkuasaanBekasPtpSearch;
 
 /**
  * SrtController implements the CRUD actions for Srt model.
@@ -45,14 +41,13 @@ class PtpController extends Controller
                     [
                         'allow' => Yii::$app->access->can('PTP-read'),
                         'actions' => ['index', 'view', 'sasaran', 'get-sasaran-form', 'bekas-view', 'liputan', 'get-ahlis', 
-                        'gambar', 'print', 'penguatkuasaan', 'jenis-bekas', 'print-kompaun'],
+                        'gambar', 'print'],
                         'roles' => ['@'],
                     ],
                     [
                         'allow' => Yii::$app->access->can('PTP-write'),
                         'actions' => ['create', 'update', 'delete', 'sasaran', 'get-sasaran-form', 'liputan', 'bekas', 
-                        'bekas-delete','file-upload', 'file-delete', 'gambar', 'print', 'penguatkuasaan', 'penguatkuasaan-view', 
-                        'penguatkuasaan-delete', 'jenis-bekas', 'jenis-bekas-view', 'jenis-bekas-delete', 'print-kompaun'],
+                        'bekas-delete','file-upload', 'file-delete', 'gambar', 'print'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -447,6 +442,65 @@ class PtpController extends Controller
         ]);
     }
 
+
+    /**
+     * Uploading file function
+     */
+    // public function actionFileUpload()
+    // {
+    //     Yii::$app->response->format = Response::FORMAT_JSON;
+
+    //     if (Yii::$app->request->isAjax) {
+    //         $model = $this->findModel(Yii::$app->request->post('NOSIRI'));
+    //         // var_dump($model);
+    //         // exit();
+    
+    //         if ($model) {
+    //             $option['initialPreview'] = [];
+    //             $option['initialPreviewConfig'] = [];
+
+    //             $model->files = UploadedFile::getInstances($model, 'files');
+
+    //             if ($files = $model->saveAttachment()) {
+    //                 foreach ($files as $file) {
+    //                     $option['initialPreview'][] = $file;
+    //                     $option['initialPreviewConfig'][] = [
+    //                         'url' => Url::to([
+    //                             '/makanan/handswab/file-delete',
+    //                             'NOSIRI' => $model->NOSIRI,
+    //                             'filename' => basename($file),
+    //                         ]),
+    //                     ];
+    //                 }
+    //             }
+    //             return $option;
+    //         }
+    //     }
+
+    //     return ['error' => Yii::t('app', 'Fail to upload files.')];
+    // }
+
+    /**
+     * Delete file
+     */
+    // public function actionFileDelete($NOSIRI, $filename)
+    // {
+    //     if (Yii::$app->request->isAjax) {
+    //         $model = SampelHandswab::findOne(['NOSIRI' => $NOSIRI, 'IDSAMPEL' => $filename]);
+    //         if ($model) {
+    //             $model->status = 2;
+    //             $model->save(false);
+
+    //             // record log
+    //             // $log = new LogActions;
+    //             // $log->recordLog($log::ACTION_UPLOAD_DELETE, $model);
+
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
     /**
      * Manipulating Racun record
      * @param $nosiri
@@ -573,227 +627,6 @@ class PtpController extends Controller
         $mpdf->WriteHTML($this->render('_print', ['model' => $model]));
         $mpdf->Output($model->NOSIRI . '.pdf', Destination::INLINE);
     }
-
-        /**
-     * Manipulating bekas record
-     * @param $nosiri
-     * @param $idbekas
-     * @return mixed
-     */
-    public function actionPenguatkuasaan($nosiri, $idpenguatkuasaan= null)
-    {
-        $model = $this->findModel($nosiri);
-        /* for auditlog */
-        $log = new LogActions;
-        $tindakan = $log::ACTION_CREATE;
-        $oldmodel = null;
-        /* */        
-
-        $searchModel = new PenguatkuasaanPtpSearch();          
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->NOSIRI);
-
-        $flag['newRecord'] = true;
-        $penguatkuasaan = new PenguatkuasaanPtp();
-        $penguatkuasaan->NOSIRI = $model->NOSIRI;
-
-        if ($idpenguatkuasaan) {
-            $penguatkuasaan = PenguatkuasaanPtp::findOne(['ID' => $idpenguatkuasaan]);
-            $flag['newRecord'] = false;
-
-            $penguatkuasaan->ID = $idpenguatkuasaan;
-
-            /* for auditlog */
-            $tindakan = $log::ACTION_UPDATE;
-            $oldmodel = json_encode($penguatkuasaan->getAttributes());
-            /* */            
-        }
-
-        // start print list function for borang PPA - 2 -NOR10012023
-        ActionHandler::setReturnUrl();
-        if (Yii::$app->request->post('action')) {
-            $actionHandler = new ActionHandler($searchModel, [
-                'export-kompaun' => function ($penguatkuasaan) use ($dataProvider) {
-                    $dataProvider->setPagination(false);
-
-                    // var_dump($sampel);
-                    // exit();
-
-                    $mpdf = new \Mpdf\Mpdf(['portrait' => 'L']);
-                    $mpdf->WriteHTML($this->render('_kompaun', ['dataProvider' => $dataProvider]));
-                    // $mpdf->Output(Yii::$app->controller->id.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-                    $mpdf->Output(Yii::$app->controller->id . '.pdf', \Mpdf\Output\Destination::INLINE);
-                },
-            ]);
-
-            $actionHandler->execute();
-        }
-        // end print list function
-        
-        if ($penguatkuasaan->load(Yii::$app->request->post()) && $penguatkuasaan) {
-                        
-            if($penguatkuasaan->isNewRecord){
-                $penguatkuasaan->ID = Yii::$app->db->createCommand("UPDATE TBPENGUATKUASAAN_PTP SET ID = ROWNUM")->execute();     
-
-                $count = PenguatkuasaanPtp::find()->count();
-                // $count = RacunSrt::find()->max('ID'); //get last ID
-                $penguatkuasaan->ID = ($count + 1);    
-            }
-
-            if ($penguatkuasaan->TRKHSALAH) $penguatkuasaan->TRKHSALAH = DateTimeHelper::convert($penguatkuasaan->TRKHSALAH, true);
-
-            if ($penguatkuasaan->save()) {
-                // record log
-                 $log->recordLog($tindakan, $penguatkuasaan, $oldmodel);
-
-                if ($flag['newRecord'])
-                    Yii::$app->session->setFlash('success', 'Berjaya menambah rekod Kompaun/Notis.');
-                else
-                    Yii::$app->session->setFlash('success', 'Berjaya mengemaskini rekod Kompaun/Notis.');
-                return $this->redirect(['penguatkuasaan', 'nosiri' => $model->NOSIRI]);
-            }
-            // print_r($penguatkuasaan->errors);
-            // exit();
-        }
-
-        return $this->render('extra/penguatkuasaan', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'penguatkuasaan' => $penguatkuasaan,
-        ]);    
-    }
-
-    public function actionPenguatkuasaanView($nosiri, $ID)
-    {
-        $model = PenguatkuasaanPtp::findOne(['ID' => $ID]);
-
-        return $this->render('extra/penguatkuasaan-view', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionPenguatkuasaanDelete()
-    {
-        if ($post = Yii::$app->request->post()) {
-            $penguatkuasaan = PenguatkuasaanPtp::findOne(['NOSIRI' => $post['nosiri'], 'ID' => $post['idpenguatkuasaan']]);
-            if ($penguatkuasaan) {
-                $penguatkuasaan->delete();
-                
-                // record log
-                // $log = new LogActions;
-                // $log->recordLog($log::ACTION_DELETE, $barangRampasan);
-
-                Yii::$app->session->setFlash('success', 'Berjaya menghapuskan rekod Kompaun/Notis ' . $penguatkuasaan->ID);
-                return $this->redirect(['penguatkuasaan', 'nosiri' => $penguatkuasaan->NOSIRI]);
-            }
-        }
-    }
-
-    public function actionPrintKompaun($nosiri, $ID)
-    {
-        // $model = $this->findModel($nosiri);
-        // $model = PenguatkuasaanPtp::findOne(['NOSIRI' => $nosiri, 'ID' => $idpenguatkuasaan]);
-        // $model->NOSIRI = $sampel->NOSIRI;
-        $model = PenguatkuasaanPtp::findOne(['ID' => $ID]);
-
-        $mpdf = new Mpdf();
-        $mpdf->WriteHTML($this->render('_kompaun', ['model' => $model]));
-        $mpdf->Output($model->NOSIRI . '.pdf', Destination::INLINE);
-    }
-
-
-    public function actionJenisBekas($nosiri, $nosampel, $idjenis= null)
-    {
-        $model = $this->findModel($nosiri);
-        $sampel = PenguatkuasaanPtp::findOne(['NOSIRI' => $nosiri, 'NOSAMPEL' => $nosampel]);
-
-        // var_dump($sampel);
-        // exit();
-        /* for auditlog */
-        $log = new LogActions;
-        $tindakan = $log::ACTION_CREATE;
-        $oldmodel = null;
-        /* */        
-
-        $searchModel = new PenguatkuasaanBekasPtpSearch();          
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->NOSIRI, $sampel->NOSAMPEL); //params should add based on what to diff on header -NOR13012023
-
-        $flag['newRecord'] = true;
-        $jenis = new PenguatkuasaanBekasPtp();
-        $jenis->NOSIRI = $model->NOSIRI;
-        $jenis->NOSAMPEL = $sampel->NOSAMPEL;
-
-        if ($idjenis) {
-            $jenis = PenguatkuasaanBekasPtp::findOne(['ID' => $idjenis]);
-            $flag['newRecord'] = false;
-
-            /* for auditlog */
-            $tindakan = $log::ACTION_UPDATE;
-            $oldmodel = json_encode($jenis->getAttributes());
-            /* */            
-        }
-
-        if ($jenis->load(Yii::$app->request->post()) && $jenis) {
-                        
-            if($jenis->isNewRecord){
-                $jenis->ID = Yii::$app->db->createCommand("UPDATE TBPENGUATKUASAAN_BEKASPTP SET ID = ROWNUM")->execute();     
-
-                $count = PenguatkuasaanBekasPtp::find()->count();
-                // $count = PenguatkuasaanBekasPtp::find()->max('ID'); //get last ID
-                $jenis->ID = ($count + 1);    
-            }
-
-            if ($jenis->save()) {
-                // record log
-                 $log->recordLog($tindakan, $jenis, $oldmodel);
-
-                if ($flag['newRecord'])
-                    Yii::$app->session->setFlash('success', 'Berjaya menambah rekod Jenis Bekas.');
-                else
-                    Yii::$app->session->setFlash('success', 'Berjaya mengemaskini rekod Jenis Bekas.');
-                return $this->redirect(['jenis-bekas', 'nosiri' => $model->NOSIRI, 'nosampel' => $sampel->NOSAMPEL]);
-            }
-            // print_r($penguatkuasaan->errors);
-            // exit();
-        }
-
-        return $this->render('extra/jenisbekas', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'jenis' => $jenis,
-        ]);
-    }
-
-    public function actionJenisBekasView($nosiri, $nosampel, $ID)
-    {
-        // $model = PenguatkuasaanBekasPtp::findOne(['NOSAMPEL' => $nosampel, 'ID' => $ID]);
-        $model = PenguatkuasaanBekasPtp::findOne(['ID' => $ID]);
-
-        return $this->render('extra/jenisbekas-view', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionJenisBekasDelete()
-    {
-        if ($post = Yii::$app->request->post()) {
-            $jenis = PenguatkuasaanBekasPtp::findOne(['NOSIRI' => $post['nosiri'], 'NOSAMPEL' => $post['nosampel'], 'ID' => $post['idjenis']]);
-            if ($jenis) {
-                $jenis->delete();
-                
-                // record log
-                // $log = new LogActions;
-                // $log->recordLog($log::ACTION_DELETE, $barangRampasan);
-
-                Yii::$app->session->setFlash('success', 'Berjaya menghapuskan rekod jenis bekas ' . $jenis->ID);
-                return $this->redirect(['jenis-bekas', 'nosiri' => $jenis->NOSIRI, 'nosampel' => $jenis->NOSAMPEL]);
-            }
-        }
-    }
-
-
-
 
    
 }

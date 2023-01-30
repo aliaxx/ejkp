@@ -455,15 +455,15 @@ class UserController extends Controller
             $jenis = $formData['Cari']['jenis_carian'];
             $value = ($formData['Cari']['nama_pengguna']);
             
-            // var_dump($value);
-            //  exit();
             $get_data = (new \yii\db\Query())
                 ->select('*')
                 ->from('C##MAJLIS.PRUSER')
-                // ->where(['like','toLowerCase(NAME)', $value])
-                ->where(['LIKE', 'LOWER(NAME)', strtolower($value)])//user can search using lowercase or uppercase. Nurul 30122022
+                ->where(['like','NAME',$value])
                 ->orWhere(['NIRC'=>$value])
-                ->all();  
+                ->all();
+
+            //     var_dump($get_data);
+            //  exit();
             
             $dataProvider = new ArrayDataProvider([
                 'key'=>'USERNAME',

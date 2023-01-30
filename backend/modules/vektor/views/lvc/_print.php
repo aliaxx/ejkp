@@ -14,9 +14,6 @@ use backend\modules\vektor\utilities\OptionHandler;
 use backend\modules\vektor\models\BekasLvc;
 
 $sasarans = $model->sasaranlvc;
-$lvc1 = $model->aktivitilvc1;
-$lvc2 = $model->aktivitilvc2;
-$lvc3 = $model->aktivitilvc3;
 $bekaslvc = $model->bekaslvc;
 foreach($bekaslvc as $bekas){
     $rows[] = [
@@ -26,8 +23,23 @@ foreach($bekaslvc as $bekas){
     ];
 }
 
+// $ai = bcdiv($ai, 1, 2);
+
+
+// var_dump($ai);
+// exit();
+
+$ketua = LawatanPasukan::findOne(['NOSIRI' => $model->NOSIRI, 'JENISPENGGUNA' => 1]);  
+$idketua = $ketua->IDPENGGUNA;
+$nama = Yii::$app->db->createCommand(" SELECT NAME FROM C##MAJLIS.PRUSER
+            WHERE USERID=$idketua")->queryScalar();
+$jawatan = Yii::$app->db->createCommand(" SELECT DESIGNATION FROM C##MAJLIS.PRUSER
+            WHERE USERID=$idketua")->queryScalar();
+
 $ahlis = Yii::$app->db->createCommand("SELECT COUNT(IDPENGGUNA) FROM TBLAWATAN_PASUKAN WHERE NOSIRI ='$model->NOSIRI' AND JENISPENGGUNA='2'")->queryScalar();
-$ketua = $model->ketuapasukan0;
+
+// var_dump($model->bekas1->KAWASAN);
+// exit();
 ?>
 
 <style>
@@ -90,7 +102,7 @@ $ketua = $model->ketuapasukan0;
                 <div><img height="100" src="<?= Yii::getAlias('@web/images/logo.png') ?>" /></div>
             </div>
         </td>
-        <td style="width:40px"></td>
+        <td style="width:30px"></td>
         <td style="text-align:center;font-size:16px;">
             <div>
                 <h6 class="document-title">LAPORAN AKTIVITI LARVACIDING</h6>
@@ -159,7 +171,7 @@ $ketua = $model->ketuapasukan0;
                 <td><b><?=isset($model->lokaliti->PRGN) ? $model->lokaliti->PRGN :null?></b></td>
                 <td style="border-style:none;width:5px"></td>      
                 <td><?= Yii::t('app', 'NAMA KETUA PASUKAN') ?></td>
-                <td><b><?=$ketua->pengguna0->NAMA?></b></td>
+                <td><b><?=$nama?></b></td>
             </tr>
             <tr>
                 <td><?= Yii::t('app', 'ALAMAT') ?></td>
@@ -172,6 +184,7 @@ $ketua = $model->ketuapasukan0;
     </div>
     <br>
     <h6 class="document-title" style="text-align:left">C. AKTIVITI LARVACIDING</h6>
+    <!-- <br> -->
     <table>
         <tr>
             <td>
@@ -180,28 +193,32 @@ $ketua = $model->ketuapasukan0;
                 <table class="sampel-table">
                     <tr>
                         <td style="width:130px"><?= Yii::t('app', 'Sasaran Premis') ?></td>
-                        <td style="text-align:right;width:200px"><b><?=!empty($lvc1->V_SASARANPREMIS) ? $lvc1->V_SASARANPREMIS:null ?></b></td>
+                        <td style="text-align:right;width:200px"><b><?=$model->V_SASARANPREMIS1?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Premis') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc1->V_BILPREMIS) ? $lvc1->V_BILPREMIS:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILPREMIS1?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Bekas') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc1->V_BILBEKAS) ? $lvc1->V_BILBEKAS:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILBEKAS1?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Jenis Racun') ?></td>
-                        <td style="text-align:right;"><b><?=isset($lvc1->racun->PRGN) ? $lvc1->racun->PRGN: null?></b></td>
+                        <td style="text-align:right;"><b><?=isset($model->racun1->PRGN) ? $model->racun1->PRGN: null?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Jum. Racun (gm)') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc1->V_JUMRACUN) ? $lvc1->V_JUMRACUN:null?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_JUMRACUN1?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Mesin') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc1->V_BILMESIN) ? $lvc1->V_BILMESIN:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILMESIN1?></b></td>
                     </tr>
+                    <!-- <tr style="border-style:none">
+                        <td style="border-style:none"></td>
+                        <td style="border-style:none"></td>
+                    </tr> -->
                 </table>
             </td>
             <td style="width:10px"></td>
@@ -211,60 +228,32 @@ $ketua = $model->ketuapasukan0;
                 <table class="sampel-table">
                     <tr>
                         <td style="width:130px"><?= Yii::t('app', 'Sasaran Premis') ?></td>
-                        <td style="text-align:right;width:200px"><b><?=!empty($lvc2->V_SASARANPREMIS) ? $lvc1->V_SASARANPREMIS:null ?></b></td>
+                        <td style="width:200px;text-align:right;"><b><?=$model->V_SASARANPREMIS2?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Premis') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc2->V_BILPREMIS) ? $lvc2->V_BILPREMIS:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILPREMIS2?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Bekas') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc2->V_BILBEKAS) ? $lvc2->V_BILBEKAS:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILBEKAS2?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Jenis Racun') ?></td>
-                        <td style="text-align:right;"><b><?=isset($lvc2->racun->PRGN) ? $lvc2->racun->PRGN: null?></b></td>
+                        <td style="text-align:right;"><b><?=isset($model->racun2->PRGN) ? $model->racun2->PRGN: null?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Jum. Racun (gm)') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc2->V_JUMRACUN) ? $lvc2->V_JUMRACUN:null?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_JUMRACUN2?></b></td>
                     </tr>
                     <tr>
                         <td><?= Yii::t('app', 'Bil. Mesin') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc2->V_BILMESIN) ? $lvc2->V_BILMESIN:null ?></b></td>
+                        <td style="text-align:right;"><b><?=$model->V_BILMESIN2?></b></td>
                     </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-top:15px">
-                <div style="font-size:13px;"><b>C. Abating</b></div>
-                <br>
-                <table class="sampel-table">
-                    <tr>
-                        <td style="width:130px"><?= Yii::t('app', 'Sasaran Premis') ?></td>
-                        <td style="text-align:right;width:200px"><b><?=!empty($lvc3->V_SASARANPREMIS) ? $lvc3->V_SASARANPREMIS:null ?></b></td>
-                    </tr>
-                    <tr>
-                        <td><?= Yii::t('app', 'Bil. Premis') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc3->V_BILPREMIS) ? $lvc3->V_BILPREMIS:null ?></b></td>
-                    </tr>
-                    <tr>
-                        <td><?= Yii::t('app', 'Bil. Bekas') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc3->V_BILBEKAS) ? $lvc3->V_BILBEKAS:null ?></b></td>
-                    </tr>
-                    <tr>
-                        <td><?= Yii::t('app', 'Jenis Racun') ?></td>
-                        <td style="text-align:right;"><b><?=isset($lvc3->racun->PRGN) ? $lvc3->racun->PRGN: null?></b></td>
-                    </tr>
-                    <tr>
-                        <td><?= Yii::t('app', 'Jum. Racun (gm)') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc3->V_JUMRACUN) ? $lvc3->V_JUMRACUN:null?></b></td>
-                    </tr>
-                    <tr>
-                        <td><?= Yii::t('app', 'Bil. Mesin') ?></td>
-                        <td style="text-align:right;"><b><?=!empty($lvc3->V_BILMESIN) ? $lvc3->V_BILMESIN:null ?></b></td>
-                    </tr>
+                    <!-- <tr style="border-style:none">
+                        <td style="border-style:none"></td>
+                        <td style="border-style:none"></td>
+                    </tr> -->
                 </table>
             </td>
         </tr>
@@ -288,18 +277,19 @@ $ketua = $model->ketuapasukan0;
     <h6 class="document-title" style="text-align:left"><b>Tempoh Masa Pemeriksaan Dilakukan Selepas Notifikasi Kes</b></h6>
     <table style="margin-left:30px">
         <tr>
-            <td style="font-size:13px">
+            <td>
                 <div>Tempoh Masa : <b><?=OptionHandler::resolve('tempoh', $model->V_TEMPOH)?></b></div>
             <td>
             <td style="width:50px"></td>
             <?php
                 if($model->V_TEMPOH == 2){
-                    echo "<td style='font-size:13px'>". "Alasan : " . "<b>" . $model->alasan->PRGN . "</b>" ."</td>";
+                    echo "<td>". "Alasan : " . "<b>" . $model->alasan->PRGN . "</b>" ."</td>";
                 }
             ?>
         </tr>
     </table>
-    <!-- <p style="page-break-after: always"></p> -->
+    <br>
+    <p style="page-break-after: always"></p>
     <h6 class="document-title" style="text-align:left">E. PENCAPAIAN LIPUTAN PREMIS PPA PADA KESELURUHAN</h6>
     <h6 class="document-title" style="text-align:left;padding-left:15px">SASARAN JUMLAH JENIS PREMIS DALAM LINKUNGAN 50 M</h6>
     <table class="sampel-table">
@@ -561,19 +551,19 @@ $ketua = $model->ketuapasukan0;
     <h6 class="document-title" style="text-align:left">J. NAMA AHLI PASUKAN</h6>
     <table class="sampel-table" style="width:100%">
         <tr>
-            <?php if($model->ahli): ?>
-                <td style="width:60%"><?= Yii::t('app', 'Nama Anggota') ?></td>
-                <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
-            <?php endif; ?>
+            <td style="width:60%"><?= Yii::t('app', 'Nama Anggota') ?></td>
+            <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
         </tr>
         <tr>
             <?php 
-                foreach($model->ahli as $pasukan){
-                    echo "<tr>";
-                        echo "<td style='font-weight: bold;'>". $pasukan->pengguna0->NAMA ."</td>";
-                        echo "<td style='font-weight: bold;'>". $pasukan->jawatan ."</td>";
-                    echo "</tr>";
-                }	
+                if($model){
+                    foreach($model->ahli as $pasukan){
+                        echo "<tr>";
+                            echo "<td style='font-weight: bold;'>". $pasukan->pengguna0->NAMA ."</td>";
+                            echo "<td style='font-weight: bold;'>". $pasukan->jawatan ."</td>";
+                        echo "</tr>";
+                    }	
+                }							
             ?>        
         </tr>
     </table>
@@ -585,8 +575,8 @@ $ketua = $model->ketuapasukan0;
             <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
         </tr>
         <tr>
-            <td style="width:60%"><b><?= $ketua->pengguna0->NAMA ?></b></td>
-            <td style="width:40%"><b><?= $ketua->jawatan?></b></td>
+            <td style="width:60%"><b><?= $nama ?></b></td>
+            <td style="width:40%"><b><?= $jawatan?></b></td>
         </tr>
     </table>
     <br>

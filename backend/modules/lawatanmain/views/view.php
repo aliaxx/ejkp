@@ -24,9 +24,6 @@ if ($model->pasukanAhlis) {
     }
 }
 
-// var_dump($model->lokasi0->NAME);
-// exit();
-
 ?>
 
     <?php $form = ActiveForm::begin(); ?>
@@ -682,7 +679,7 @@ if ($model->pasukanAhlis) {
                 [
                     'attribute' => 'IDLOKASI',
                     'value' => function ($model){
-                        return (!empty($model->lokasi0->NAME))? $model->lokasi0->NAME: null;
+                        return (!empty($model->lokasi0->LOCATION_NAME))? $model->lokasi0->LOCATION_NAME: null;
                     }
                 ],
                 [
@@ -1132,9 +1129,91 @@ if ($model->pasukanAhlis) {
 <?php endif ?>
 <!-- ======================================== End Maklumat Kes/Aktiviti Untuk Semburan Termal(SRT) ================================================-->
 
-<!-- add to display section for PTP and remove info larvaciding for LVC -NOR10012023 -->
-<!-- ======================================= Tujuan Aktiviti for LVC Dan PTP ===============================================-->
-<?php if ($model->IDMODULE == 'LVC' || $model->IDMODULE == 'PTP'): ?> 
+
+<!-- ========================================== Maklumat Tindakan Penguatkuasaan PTP==================================================-->
+<?php if ($model->IDMODULE == 'PTP'): ?>
+<table style="height:0%; width:100%;">
+        <tr style="background-color: #b6e7cf; border: 1px solid #ddd;"><th style="text-align:center;"><h5>Maklumat Tindakan Penguatkuasaan</h5></th></tr>
+    </table>
+    <div style="float:left; width:50%;">
+        <?= DetailView::widget([
+            'model' => $model,
+            'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+            'attributes' => [
+                [
+                    'attribute' => 'PTP_JUMKOMPAUN',
+                    'value' => function ($model){
+                        return (!empty($model->PTP_JUMKOMPAUN))? $model->PTP_JUMKOMPAUN: null;
+                    }
+                ], 
+            ],
+            ]) ?>
+    </div>
+
+    <!-- Maklumat Tindakan Penguatkuasaan on right side -->
+    <div style="float:left; width:50%;">
+        <?= DetailView::widget([
+            'model' => $model,
+            'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+            'attributes' => [
+                [
+                    'attribute' => 'PTP_JUMNOTIS',
+                    'value' => function ($model){
+                        return (!empty($model->PTP_JUMNOTIS))? $model->PTP_JUMNOTIS: null;
+                    }
+                ],
+            ],
+        ]) ?>
+    </div>
+<?php endif ?>
+<!-- ========================================== End Maklumat Tindakan Penguatkuasaan PTP==================================================-->
+
+
+<!-- ======================================= Maklumat Larvaciding & Tujuan Aktiviti for LVC ===============================================-->
+<?php if ($model->IDMODULE == 'LVC'): ?>
+<!-- Maklumat Larvaciding -->
+<table style="height:0%; width:100%;">
+    <tr style="background-color: #b6e7cf; border: 1px solid #ddd;"><th style="text-align:center;"><h5>Maklumat Tindakan Penguatkuasaan</h5></th></tr>
+</table>
+
+<div style="float:left; height: 10%; width:50%;">
+    <table style="height:0%; width:100%;">
+        <th style="background-color: #d5e1df; height:1px; border: 1px solid #c3d5d2; text-align:center;"><p>A. Maklumat Premis Disembur Larvisid - Spraycan</p></th>
+    </table>
+    
+        <?= DetailView::widget([
+            'model' => $model,
+            'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+            'attributes' => [
+                'V_SASARANPREMIS1',
+                'V_BILPREMIS1',
+                'V_BILBEKAS1',
+                'V_ID_JENISRACUN1',
+                'V_JUMRACUN1',
+                'V_BILMESIN1',
+            ],
+            ]) ?>
+    </div>
+
+<!-- Maklumat Larvaciding on right side -->
+<div style="float:left; height: 10%; width:50%;">
+    <table style="height:0%; width:100%;">
+        <th style="background-color: #d5e1df; height:1px; border: 1px solid #c3d5d2; text-align:center;"><p>B. Maklumat Premis Disembur Larvisid - Mistblower</p></th>
+    </table>
+    
+        <?= DetailView::widget([
+            'model' => $model,
+            'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+            'attributes' => [
+                'V_SASARANPREMIS2',
+                'V_BILPREMIS2',
+                'V_BILBEKAS2',
+                'V_ID_JENISRACUN2',
+                'V_JUMRACUN2',
+                'V_BILMESIN2',
+            ],
+            ]) ?>
+</div>
 
 <!-- Maklumat Tujuan Aktiviti -->
 <table style="height:0%; width:100%;">
@@ -1144,7 +1223,7 @@ if ($model->pasukanAhlis) {
 <div style="float:left; height: 10%; width:50%;">
     <?= DetailView::widget([
         'model' => $model,
-        'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+        'template' => "<tr><th style='width: 50%;'>{label}</th><td>{value}</td></tr>",
         'attributes' => [
             [
                 'attribute' => 'V_JENISSEMBUR',
@@ -1163,7 +1242,7 @@ if ($model->pasukanAhlis) {
 <div style="float:left; height: 10%; width:50%;">
     <?= DetailView::widget([
         'model' => $model,
-        'template' => "<tr><th style='width: 30%;'>{label}</th><td>{value}</td></tr>",
+        'template' => "<tr><th style='width: 50%;'>{label}</th><td>{value}</td></tr>",
         'attributes' => [
             [
                 'attribute' => 'V_KATLOKALITI',

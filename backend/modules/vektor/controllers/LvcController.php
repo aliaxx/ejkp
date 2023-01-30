@@ -23,8 +23,6 @@ use backend\modules\vektor\models\SasaranLvc;
 use backend\modules\vektor\models\SasaranLvcSearch;
 use backend\modules\vektor\models\BekasLvc;
 use backend\modules\vektor\models\BekasLvcSearch;
-use backend\modules\vektor\models\Lvcaktiviti;
-use backend\modules\vektor\models\LvcaktivitiSeacrh;
 
 /**
  * SrtController implements the CRUD actions for Srt model.
@@ -42,14 +40,13 @@ class LvcController extends Controller
                 'rules' => [
                     [
                         'allow' => Yii::$app->access->can('LVC-read'),
-                        'actions' => ['index', 'view', 'sasaran', 'get-sasaran-form', 'bekas-view', 'liputan', 'get-ahlis', 'gambar', 
-                        'print'],
+                        'actions' => ['index', 'view', 'sasaran', 'get-sasaran-form', 'bekas-view', 'liputan', 'get-ahlis', 'gambar', 'print'],
                         'roles' => ['@'],
                     ],
                     [
                         'allow' => Yii::$app->access->can('LVC-write'),
                         'actions' => ['create', 'update', 'delete', 'sasaran', 'get-sasaran-form', 'liputan', 'bekas', 
-                        'bekas-delete','file-upload', 'file-delete', 'gambar', 'print', 'larvisid', 'larvisid-view', 'larvisid-delete'],
+                        'bekas-delete','file-upload', 'file-delete', 'gambar', 'print'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -516,9 +513,9 @@ class LvcController extends Controller
     // }
 
     /**
-     * Manipulating bekas record
+     * Manipulating Racun record
      * @param $nosiri
-     * @param $idbekas
+     * @param $idbarang
      * @return mixed
      */
     public function actionBekas($nosiri, $idbekas= null)
@@ -621,97 +618,6 @@ class LvcController extends Controller
         }
     }
 
-    /**
-     * Manipulating bekas record
-     * @param $nosiri
-     * @param $idbekas
-     * @return mixed
-     */
-    public function actionLarvisid($nosiri, $idlarvisid= null)
-    {
-        $model = $this->findModel($nosiri);
-        /* for auditlog */
-        $log = new LogActions;
-        $tindakan = $log::ACTION_CREATE;
-        $oldmodel = null;
-        /* */        
-
-        $searchModel = new LvcaktivitiSeacrh();          
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $model->NOSIRI);
-
-        $flag['newRecord'] = true;
-        $larvisid = new Lvcaktiviti();
-        $larvisid->NOSIRI = $model->NOSIRI;
-
-        if ($idlarvisid) {
-            $larvisid = Lvcaktiviti::findOne(['ID' => $idlarvisid]);
-            $flag['newRecord'] = false;
-
-            $larvisid->ID = $idlarvisid;
-
-            /* for auditlog */
-            $tindakan = $log::ACTION_UPDATE;
-            $oldmodel = json_encode($larvisid->getAttributes());
-            /* */            
-        }
-       
-        if ($larvisid->load(Yii::$app->request->post()) && $larvisid) {
-                        
-            if($larvisid->isNewRecord){
-                $larvisid->ID = Yii::$app->db->createCommand("UPDATE TBLVC_AKTIVITI SET ID = ROWNUM")->execute();     
-
-                $count = Lvcaktiviti::find()->count();
-                // $count = RacunSrt::find()->max('ID'); //get last ID
-                $larvisid->ID = ($count + 1);    
-            }
-
-            if ($larvisid->save()) {
-                // record log
-                 $log->recordLog($tindakan, $larvisid, $oldmodel);
-
-                if ($flag['newRecord'])
-                    Yii::$app->session->setFlash('success', 'Berjaya menambah rekod Aktiviti Larvisid.');
-                else
-                    Yii::$app->session->setFlash('success', 'Berjaya mengemaskini rekod Aktiviti Larvisid.');
-                return $this->redirect(['larvisid', 'nosiri' => $model->NOSIRI]);
-            }
-            // print_r($larvisid->errors);
-            // exit();
-        }
-
-        return $this->render('extra/larvisid', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'larvisid' => $larvisid,
-        ]);    
-    }
-
-    public function actionLarvisidView($nosiri, $ID)
-    {
-        $model = Lvcaktiviti::findOne(['ID' => $ID]);
-
-        return $this->render('extra/larvisid-view', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionLarvisidDelete()
-    {
-        if ($post = Yii::$app->request->post()) {
-            $larvisid = Lvcaktiviti::findOne(['NOSIRI' => $post['nosiri'], 'ID' => $post['idlarvisid']]);
-            if ($larvisid) {
-                $larvisid->delete();
-                
-                // record log
-                // $log = new LogActions;
-                // $log->recordLog($log::ACTION_DELETE, $barangRampasan);
-
-                Yii::$app->session->setFlash('success', 'Berjaya menghapuskan rekod Aktiviti Larvisid ' . $larvisid->ID);
-                return $this->redirect(['larvisid', 'nosiri' => $larvisid->NOSIRI]);
-            }
-        }
-    }
 
     /**
      * Redirect to lawatanmain/views/gambar page

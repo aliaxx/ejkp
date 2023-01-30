@@ -18,7 +18,7 @@ class SampelHandswabSearch extends SampelHandswab
     {
         return [
             [['ID'], 'number'],
-            [['NOSIRI', 'IDSAMPEL', 'NAMAPEKERJA', 'JENIS', 'CATATAN', 'PERALATAN'], 'safe'],
+            [['NOSIRI', 'IDSAMPEL', 'NAMAPEKERJA', 'JANTINA', 'CATATAN'], 'safe'],
             [['NOKP', 'TY2', 'FHC', 'KEPUTUSAN', 'PGNDAFTAR', 'TRKHDAFTAR', 'PGNAKHIR', 'TRKHAKHIR'], 'integer'],
         ];
     }
@@ -83,7 +83,7 @@ class SampelHandswabSearch extends SampelHandswab
         $query->andFilterWhere(['like', 'NOSIRI', $this->NOSIRI])
             ->andFilterWhere(['like', 'IDSAMPEL', $this->IDSAMPEL])
             ->andFilterWhere(['like', 'NAMAPEKERJA', $this->NAMAPEKERJA])
-            ->andFilterWhere(['like', 'JENIS', $this->JENIS])
+            ->andFilterWhere(['like', 'JANTINA', $this->JANTINA])
             ->andFilterWhere(['like', 'CATATAN', $this->CATATAN]);
 
         return $dataProvider;

@@ -68,11 +68,8 @@ class Access extends \yii\base\Component
             'dun'                    =>     'Penyelenggaraan -> Dun',
             'lokaliti'               =>     'Penyelenggaraan -> Lokaliti',
             'kolam'                  =>     'Penyelenggaraan -> Parameter Bacaan Air Kolam',
-            'kategori-tandas'        =>     'Penyelenggaraan -> Parameter Kategori Tandas -> Kategori Tandas', //NOR12012023
-            'lokasi-tandas'          =>     'Penyelenggaraan -> Parameter Kategori Tandas -> Lokasi Tandas', //NOR12012023
             'lesen'                  =>     'Integrasi -> Integrasi Lesen',
             'sewa'                   =>     'Integrasi -> Integrasi Sewa',
-            'sppj'                   =>     'Integrasi -> Integrasi SPPJ',
             'SMM'                    =>     'Mutu Makanan -> Sampel Makanan',
             'SDR'                    =>     'Mutu Makanan -> Sitaan',
             'HSW'                    =>     'Mutu Makanan -> Handswab',

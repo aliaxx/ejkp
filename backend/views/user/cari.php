@@ -13,9 +13,9 @@ use kartik\select2\Select2;
 
 $this->title = 'Cari';
 $this->params['breadcrumbs'] = [
-    'Kawalan Pengguna',
-    ['label' => 'Profil Pengguna', 'url' => ['index']],
-    'Carian',
+    'Pengguna',
+    ['label' => 'Pengurusan', 'url' => ['index']],
+    'Cari',
 ];
 ?>
 <?php 
@@ -101,7 +101,7 @@ if($dataProvider==NULL){
                     'value' => 'NAME',
                 ],        
                 [
-                'attribute' => 'No. Kad Pengenalan', 
+                'attribute' => 'NO. Kad Pengenalan', 
                 'value' => 'NIRC',
                 ],
                 [

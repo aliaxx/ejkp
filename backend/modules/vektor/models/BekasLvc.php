@@ -46,7 +46,7 @@ class BekasLvc extends \yii\db\ActiveRecord
             [['NOSIRI'], 'string', 'max' => 20],
             [['ai', 'bi', 'ci', 'hpi'], 'safe'],
             [['JENISBEKAS', 'KEPUTUSAN', 'PURPA', 'CATATAN'], 'string', 'max' => 250],
-            // [['ID', 'NOSIRI'], 'unique', 'targetAttribute' => ['ID', 'NOSIRI']],
+            [['ID', 'NOSIRI'], 'unique', 'targetAttribute' => ['ID', 'NOSIRI']],
             [['ID'], 'unique'],
         ];
     }

@@ -43,7 +43,7 @@ class AuditLogSearch extends AuditLog
      */
     public function search($params)
     {
-        $query = Auditlog::find()->joinWith('user');
+        $query = Auditlog::find()->joinWith('USER');
 
         $sort = [
             'attributes' => [

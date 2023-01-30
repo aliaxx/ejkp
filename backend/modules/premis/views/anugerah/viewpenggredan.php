@@ -11,13 +11,9 @@ use backend\modules\peniaga\models\LawatanPasukan;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\peniaga\models\KawalanPerniagaan */
 
-$this->title = 'Anugerah Premis Bersih';
-$this->params['breadcrumbs'] = [
-'Penggredan Premis Makanan',
-['label' => $this->title, 'url' => ['index']],
-$model->NOSIRI,
-'Paparan Maklumat'
-];
+$this->title = $model->NOSIRI;
+$this->params['breadcrumbs'][] = ['label' => 'Penggredan Premis Makanan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div>

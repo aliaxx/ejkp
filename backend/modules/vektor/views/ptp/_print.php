@@ -13,6 +13,131 @@ use backend\modules\vektor\models\SasaranPtp;
 use backend\modules\vektor\utilities\OptionHandler;
 use backend\modules\vektor\models\BekasPtp;
 
+/**
+ * @var Transkolam $model
+ */
+
+$alphabet = [
+    'a', 'b', 'c', 'd', 'e',
+    'f', 'g', 'h', 'i', 'j',
+    'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't',
+    'u', 'v', 'w', 'x', 'y',
+    'z'
+];
+
+//function to convert to words with decimal
+function numberTowords($num)
+{
+
+    $ones = array(
+    0 =>"",1 => "SATU",2 => "DUA",3 => "TIGA",4 => "EMPAT",5 => "LIMA",6 => "ENAM",7 => "TUJUH",8 => "LAPAN",9 => "SEMBILAN",10 => "SEPULUH",
+    11 => "SEBELAS",12 => "DUA BELAS",13 => "TIGA BELAS",14 => "EMPAT BELAS",15 => "LIMA BELAS",16 => "ENAM BELAS",17 => "TUJUH BELAS",18 => "LAPAN BELAS",19 => "SEMBILAN BELAS","014" => "EMPAT BELAS");
+
+    $tens = array(0 => "",1 => "SEPULUH",2 => "DUA PULUH",3 => "TIGA PULUH", 4 => "EMPAT PULUH", 5 => "LIMA PULUH", 6 => "ENAM PULUH", 7 => "TUJUH PULUH", 8 => "LAPAN PULUH", 9 => "SEMBILAN PULUH" ); 
+    $hundreds = array( "RATUS", "RIBU", "JUTA", "BILION", "TRILLION", "QUARDRILLION" 
+    ); /*limit t quadrillion */
+
+    $num = number_format($num,2,".",",");  //5,000.00
+    $num_arr = explode(".",$num); //Array ( [0] => 5,000 [1] => 00 ) 
+    $wholenum = $num_arr[0]; //5,000
+
+    $decnum = $num_arr[1]; //00
+
+    $whole_arr = array_reverse(explode(",",$wholenum)); //000
+
+    krsort($whole_arr,1); //1
+
+    $rettxt = ""; 
+    
+    foreach($whole_arr as $key => $i){
+	
+        //print_r (substr($i,0,1)) . "<br>";
+        
+        while(substr($i,0,1)=="0")
+            $i=substr($i,1,5);
+      
+            if($i < 20){ 
+                 echo "getting:".$i; 
+                $rettxt .= $ones[$i]; 
+            }elseif($i < 100){ 
+                if(substr($i,0,1)!="0")  $rettxt .= $tens[substr($i,0,1)]; 
+                if(substr($i,1,1)!="0") $rettxt .= " ".$ones[substr($i,1,1)]; 
+
+            }else{ 
+                if(substr($i,0,1)!="0") $rettxt .= $ones[substr($i,0,1)]." ".$hundreds[0]; 
+                if(substr($i,1,1)!="0")$rettxt .= " ".$tens[substr($i,1,1)]; 
+                if(substr($i,2,1)!="0")$rettxt .= " ".$ones[substr($i,2,1)]; 
+            } 
+            
+            if($key > 0){ 
+                $rettxt .= " ".$hundreds[$key]." "; 
+            }
+        } 
+
+    if($decnum > 0){
+        $rettxt .= " DAN ";
+        if($decnum < 20){
+            $rettxt .= $ones[$decnum] . " SEN ";
+        }elseif($decnum < 100){
+            $rettxt .= $tens[substr($decnum,0,1)];
+            $rettxt .= " ".$ones[substr($decnum,1,1)] . " SEN ";
+        }
+    }
+
+    return $rettxt;
+    }
+
+//function to trim decimal and convert to words
+function convertNumberToWord($num = false)
+{
+    $num = str_replace(array(',', ' '), '' , trim($num));
+    if(! $num) {
+        return false;
+    }
+    $num = (int) $num;
+    $words = array();
+    $list1 = array('',"SATU","DUA","TIGA","EMPAT","LIMA","ENAM","TUJUH","LAPAN","SEMBILAN","SEPULUH",
+        "SEBELAS","DUA BELAS","TIGA BELAS","EMPAT BELAS","LIMA BELAS","ENAM BELAS","TUJUH BELAS","LAPAN BELAS","SEMBILAN BELAS");
+    $list2 = array('', "SEPULUH","DUA PULUH","TIGA PULUH","EMPAT PULUH", "LIMA PULUH",  "ENAM PULUH", "TUJUH PULUH",  "LAPAN PULUH", "SEMBILAN PULUH", 'SERATUS');
+    $list3 = array('', "RIBU", "JUTA", "BILION", "TRILLION", 'quadrillion', 'quintillion', 'sextillion', 'septillion',
+        'octillion', 'nonillion', 'decillion', 'undecillion', 'duodecillion', 'tredecillion', 'quattuordecillion',
+        'quindecillion', 'sexdecillion', 'septendecillion', 'octodecillion', 'novemdecillion', 'vigintillion'
+    );
+
+    // ones = array('',"SATU","DUA","TIGA","EMPAT","LIMA","ENAM","TUJUH","LAPAN","SEMBILAN","SEPULUH",
+    //     "SEBELAS","DUA BELAS","TIGA BELAS","EMPAT BELAS","LIMA BELAS","ENAM BELAS","TUJUH BELAS","LAPAN BELAS","SEMBILAN BELAS");
+    
+    //     $tens = array(0 => "KOSONG",1 => "SEPULUH",2 => "DUA PULUH",3 => "TIGA PULUH", 4 => "EMPAT PULUH", 5 => "LIMA PULUH", 6 => "ENAM PULUH", 7 => "TUJUH PULUH", 8 => "LAPAN PULUH", 9 => "SEMBILAN PULUH" ); 
+    //     $hundreds = array( "RATUS", "RIBU", "JUTA", "BILION", "TRILLION", "QUARDRILLION" 
+       
+    $num_length = strlen($num);
+    $levels = (int) (($num_length + 2) / 3);
+    $max_length = $levels * 3;
+    $num = substr('00' . $num, -$max_length);
+    $num_levels = str_split($num, 3);
+    for ($i = 0; $i < count($num_levels); $i++) {
+        $levels--;
+        $hundreds = (int) ($num_levels[$i] / 100);
+        $hundreds = ($hundreds ? ' ' . $list1[$hundreds] . ' RATUS' . ' ' : '');
+        $tens = (int) ($num_levels[$i] % 100);
+        $singles = '';
+        if ( $tens < 20 ) {
+            $tens = ($tens ? ' ' . $list1[$tens] . ' ' : '' );
+        } else {
+            $tens = (int)($tens / 10);
+            $tens = ' ' . $list2[$tens] . ' ';
+            $singles = (int) ($num_levels[$i] % 10);
+            $singles = ' ' . $list1[$singles] . ' ';
+        }
+        $words[] = $hundreds . $tens . $singles . ( ( $levels && ( int ) ( $num_levels[$i] ) ) ? ' ' . $list3[$levels] . ' ' : '' );
+    } //end for loop
+    $commas = count($words);
+    if ($commas > 1) {
+        $commas = $commas - 1;
+    }
+    return implode(' ', $words);
+}
 
 $sasarans = $model->sasaranptp;
 $bekasptp = $model->bekasptp;
@@ -22,10 +147,28 @@ foreach($bekasptp as $bekas){
         $bi = $bekas->pencapaian['bi'],
         $ci = $bekas->pencapaian['ci'],
     ];
-}    
+}
+
+// $ai = bcdiv($ai, 1, 2);
+
+
+// var_dump($sasarans);
+// exit();
+
+$ketua = LawatanPasukan::findOne(['NOSIRI' => $model->NOSIRI, 'JENISPENGGUNA' => 1]);  
+$idketua = $ketua->IDPENGGUNA;
+$nama = Yii::$app->db->createCommand(" SELECT NAME FROM C##MAJLIS.PRUSER
+            WHERE USERID=$idketua")->queryScalar();
+$jawatan = Yii::$app->db->createCommand(" SELECT DESIGNATION FROM C##MAJLIS.PRUSER
+            WHERE USERID=$idketua")->queryScalar();
 
 $ahlis = Yii::$app->db->createCommand("SELECT COUNT(IDPENGGUNA) FROM TBLAWATAN_PASUKAN WHERE NOSIRI ='$model->NOSIRI' AND JENISPENGGUNA='2'")->queryScalar();
-$ketua = $model->ketuapasukan0;
+
+// $kawasan1 = BekasPtp::findOne(['NOSIRI' => $model->NOSIRI, 'KAWASAN' => 1]);  
+// $kawasan2 = BekasPtp::findOne(['NOSIRI' => $model->NOSIRI, 'KAWASAN' => 2]);  
+
+// var_dump($model->racun1->PRGN);
+// exit();
 ?>
 
 <style>
@@ -157,7 +300,7 @@ $ketua = $model->ketuapasukan0;
                 <td><b><?=isset($model->lokaliti->PRGN) ? $model->lokaliti->PRGN :null?></b></td>
                 <td style="border-style:none;width:5px"></td>      
                 <td><?= Yii::t('app', 'NAMA KETUA PASUKAN') ?></td>
-                <td><b><?=$ketua->pengguna0->NAMA?></b></td>
+                <td><b><?=$nama?></b></td>
             </tr>
             <tr>
                 <td><?= Yii::t('app', 'ALAMAT') ?></td>
@@ -385,8 +528,8 @@ $ketua = $model->ketuapasukan0;
         <thead style="color:#000000">
             <tr>
                 <tr>
-                    <td style="width:77%; text-align:left"><b><?= Yii::t('app', 'ALASAN') ?></b></td>
-                    <td style="width:23%; text-align:left"><b><?= Yii::t('app', 'JUMLAH PREMIS') ?></b></td>
+                    <td style="width:70%; text-align:left"><b><?= Yii::t('app', 'ALASAN') ?></b></td>
+                    <td style="width:30%; text-align:left"><b><?= Yii::t('app', 'JUMLAH PREMIS') ?></b></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('app', 'Penduduk Enggan') ?></td>
@@ -408,7 +551,7 @@ $ketua = $model->ketuapasukan0;
         </thead>
     </table>
     <br>
-    <p style="page-break-after: auto"></p>
+    <p style="page-break-after: always"></p>
     <h6 class="document-title" style="text-align:left">H. JENIS-JENIS BEKAS DIPERIKSA</h6>
     <br>
     <table>
@@ -554,19 +697,19 @@ $ketua = $model->ketuapasukan0;
     <h6 class="document-title" style="text-align:left">J. NAMA AHLI PASUKAN</h6>
     <table class="sampel-table" style="width:100%">
         <tr>
-            <?php if($model->ahli): ?>
-                <td style="width:60%"><?= Yii::t('app', 'Nama Anggota') ?></td>
-                <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
-            <?php endif; ?>
+            <td style="width:60%"><?= Yii::t('app', 'Nama Anggota') ?></td>
+            <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
         </tr>
         <tr>
             <?php 
-                foreach($model->ahli as $pasukan){
-                    echo "<tr>";
-                        echo "<td style='font-weight: bold;'>". $pasukan->pengguna0->NAMA ."</td>";
-                        echo "<td style='font-weight: bold;'>". $pasukan->jawatan ."</td>";
-                    echo "</tr>";
-                }	
+                if($model){
+                    foreach($model->ahli as $pasukan){
+                        echo "<tr>";
+                            echo "<td style='font-weight: bold;'>". $pasukan->pengguna0->NAMA ."</td>";
+                            echo "<td style='font-weight: bold;'>". $pasukan->jawatan ."</td>";
+                        echo "</tr>";
+                    }	
+                }							
             ?>        
         </tr>
     </table>
@@ -578,8 +721,8 @@ $ketua = $model->ketuapasukan0;
             <td style="width:40%"><?= Yii::t('app', 'Jawatan') ?></td>
         </tr>
         <tr>
-            <td style="width:60%"><b><?= $ketua->pengguna0->NAMA ?></b></td>
-            <td style="width:40%"><b><?= $ketua->jawatan?></b></td>
+            <td style="width:60%"><b><?= $nama ?></b></td>
+            <td style="width:40%"><b><?= $jawatan?></b></td>
         </tr>
     </table>
     <br>

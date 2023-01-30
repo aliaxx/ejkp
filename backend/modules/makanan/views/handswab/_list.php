@@ -138,7 +138,7 @@ foreach ($models as $model) {
         $model->IDSAMPEL, 
         $model->NAMAPEKERJA,
         $model->NOKP,
-        $model->JENIS,
+        $model->JANTINA,
         // $model->TY2,
         OptionHandler::resolve('ty2-fhc', $model->TY2),
         $model->FHC,
@@ -155,7 +155,7 @@ foreach ($models as $model) {
 // $sampel1 = SampelMakanan::findAll(['NOSIRI' => $model->NOSIRI]);  
 
 // $pgndaftar = $model->PGNDAFTAR;
-$get_data = Yii::$app->db->createCommand(" SELECT NVL(DESIGNATION, NULL) FROM C##MAJLIS.PRUSER
+$get_data = Yii::$app->db->createCommand(" SELECT DESIGNATION FROM MAJLIS.PRUSER
             WHERE USERID=$pgndaftar")->queryOne();
 $jawatan = implode('', $get_data);  
 
@@ -163,11 +163,11 @@ $positif = Yii::$app->db->createCommand("SELECT COUNT(KEPUTUSAN) FROM TBSAMPEL_H
 $positif1 = implode('', $positif);  
 
 $positif_male = Yii::$app->db->createCommand("SELECT COUNT(KEPUTUSAN) FROM TBSAMPEL_HS WHERE NOSIRI ='$model->NOSIRI' AND KEPUTUSAN='1'
-AND JENIS='1'")->queryOne();
+AND JANTINA='1'")->queryOne();
 $positif_male1 = implode('', $positif_male);  
 
 $positif_female = Yii::$app->db->createCommand("SELECT COUNT(KEPUTUSAN) FROM TBSAMPEL_HS WHERE NOSIRI ='$model->NOSIRI' AND KEPUTUSAN='1'
-AND JENIS='2'")->queryOne();
+AND JANTINA='2'")->queryOne();
 $positif_female1 = implode('', $positif_female);  
 
 // $nolesen = $model->lesen->NOLESEN;
@@ -328,7 +328,7 @@ $positif_female1 = implode('', $positif_female);
                     echo "<td>". $model1->IDSAMPEL ."</td>";
                     echo "<td>". $model1->NAMAPEKERJA ."</td>";
                     echo "<td>". $model1->NOKP ."</td>";
-                    echo "<td>". OptionHandler::resolve('jantina', $model1->JENIS) ."</td>";
+                    echo "<td>". OptionHandler::resolve('jantina', $model1->JANTINA) ."</td>";
                     echo "<td>". OptionHandler::resolve('ty2-fhc', $model1->TY2) ."</td>";
                     echo "<td>". OptionHandler::resolve('ty2-fhc', $model1->FHC) ."</td>";
                     echo "<td>". $model1->CATATAN ."</td>";

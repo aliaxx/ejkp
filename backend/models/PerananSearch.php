@@ -77,8 +77,8 @@ class PerananSearch extends Peranan
             '{{%PERANAN}}.STATUS' => $this->STATUS,
         ]);
 
-        $query ->andFilterWhere(['like', 'LOWER(NAMAPERANAN)', strtolower($this->NAMAPERANAN)],true)
-               ->andFilterWhere(['like', 'LOWER({{%PENGGUNA}}.NAMA)', strtolower($this->PGNAKHIR)],true);
+        $query->andFilterWhere(['like', 'NAMAPERANAN', $this->NAMAPERANAN])
+            ->andFilterWhere(['like', '{{%PENGGUNA}}.NAMA', $this->PGNAKHIR]);
 
         return $dataProvider;
     }

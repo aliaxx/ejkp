@@ -20,7 +20,7 @@ use yii\helpers\BaseFileHelper;
  * @property string|null $IDSAMPEL ID SAMPEL
  * @property string|null $NAMAPEKERJA NAMA PEKERJA
  * @property int|null $NOKP NO K/P@PASSPORT
- * @property string|null $JENIS JENIS
+ * @property string|null $JANTINA JANTINA
  * @property int|null $TY2 TY2
  * @property int|null $FHC FHC
  * @property int|null $KEPUTUSAN KEPUTUSAN
@@ -54,13 +54,13 @@ class SampelHandswab extends \yii\db\ActiveRecord
     {
         return [
             [['ID'], 'number'],
-            [['IDSAMPEL', 'NAMAPEKERJA', 'JENIS'], 'required'],
-            // [['NOKP', 'NAMAPEKERJA', 'JENIS','TY2', 'FHC'], 'required'],
+            [['IDSAMPEL','NOKP', 'NAMAPEKERJA', 'JANTINA','TY2', 'FHC'], 'required'],
+            // [['NOKP', 'NAMAPEKERJA', 'JANTINA','TY2', 'FHC'], 'required'],
             [['TY2', 'FHC', 'KEPUTUSAN', 'PGNDAFTAR', 'TRKHDAFTAR', 'PGNAKHIR', 'TRKHAKHIR'], 'integer'],
-            [['NOSIRI', 'IDSAMPEL', 'NAMAPEKERJA', 'JENIS', 'CATATAN', 'NOKP', 'PERALATAN'], 'safe'],
+            [['NOSIRI', 'IDSAMPEL', 'NAMAPEKERJA', 'JANTINA', 'CATATAN', 'NOKP'], 'safe'],
             // [['NOSIRI', 'IDSAMPEL', 'NOKP'], 'string', 'max' => 20],
             // [['NAMAPEKERJA'], 'string', 'max' => 100],
-            // [['JENIS'], 'string', 'max' => 1],
+            // [['JANTINA'], 'string', 'max' => 1],
             // [['CATATAN'], 'string', 'max' => 250],
             [['ID'], 'unique'],
         ];
@@ -77,11 +77,10 @@ class SampelHandswab extends \yii\db\ActiveRecord
             'IDSAMPEL' => 'ID Sampel',
             'NAMAPEKERJA' => 'Nama',
             'NOKP' => 'No. KP/Passport',
-            'JENIS' => 'Jenis',
+            'JANTINA' => 'Jantina',
             'TY2' => 'TY2',
             'FHC' => 'FHC',
             'KEPUTUSAN' => 'Keputusan',
-            'PERALATAN' => 'Peralatan',
             'CATATAN' => 'Catatan',
             'PGNDAFTAR' => 'Pengguna Daftar',
             'TRKHDAFTAR' => 'Tarikh Daftar',

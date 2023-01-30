@@ -118,9 +118,9 @@ if (!$sampel->isNewRecord) {
             'NAMAPEKERJA',
             'NOKP',
             [
-                'attribute' => 'JENIS',
+                'attribute' => 'JANTINA',
                 'value' => function($sampel) {
-                    return OptionHandler::resolve('jantina', $sampel->JENIS);
+                    return OptionHandler::resolve('jantina', $sampel->JANTINA);
                 }
             ],
             [
@@ -227,89 +227,89 @@ if (!$sampel->isNewRecord) {
             <?= $form->field($sampel, 'TY2')->radioList(OptionHandler::render('ty2-fhc'), ['selector'=>'radio', 'inline'=>true]); ?>
 
             <?= $form->field($sampel, 'KEPUTUSAN')->radioList(OptionHandler::render('keputusan'), ['selector'=>'radio', 'inline'=>true]); ?>
-            
         </div>
 
         <!-- right side -->
         <div class="col-md-6">
             <?= $form->field($sampel, 'NAMAPEKERJA')->textInput(['maxlength' => true]) ?>
         
-            <?= $form->field($sampel, 'JENIS')->radioList(OptionHandler::render('jantina'), ['selector'=>'radio', 'inline'=>true]); ?>
+            <?= $form->field($sampel, 'JANTINA')->radioList(OptionHandler::render('jantina'), ['selector'=>'radio', 'inline'=>true]); ?>
 
             <?= $form->field($sampel, 'FHC')->radioList(OptionHandler::render('ty2-fhc'), ['selector'=>'radio', 'inline'=>true]); ?>
 
             <?= $form->field($sampel, 'CATATAN')->textarea(['rows' => '3']) ?>
-            
         </div>
-    </div>
-        
-    <h4><?= Yii::t('app', 'Gambar Sampel') ?></h4>
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-8">
-        <!-- UPLOAD SECTION  -->
-            <?= FileInput::widget([
-            'model' => $sampel,
-            'attribute' => 'files[]',
-            'options' => [
-                'multiple' => true,
-                'accept' => 'image/*',
-            ],
-            'pluginOptions' => [
-                'allowedFileTypes' => ['image'], // allow only images
-                'language' => 'ms',
-                'dropZoneTitle' => 'Tarik & Letakkan Gambar Anda Di Sini',
-                // 'uploadUrl' => Url::to(['/makanan/handswab/file-upload']),
-                'uploadUrl' => Url::to(['/makanan/handswab/file-upload', 'idsampel' => $sampel->ID]), //pass parameter idsampel to get current id
-                'uploadExtraData' => ['NOSIRI' => $sampel->NOSIRI],
-                'uploadAsync' => true,
-                // 'maxFileCount' => 4,
-                'maxFileSize' => 2 * 1024 * 1024,
-                'overwriteInitial' => false,
-                'validateInitialCount' => true,
-                'initialPreviewAsData' => true,
-                'initialPreview' => $option['initialPreview'],
-                'initialPreviewConfig' => $option['initialPreviewConfig'],
-                'purifyHtml' => true,
-                'showCaption' => false,
-                'showRemove' => false,
-                'showUpload' => false,
-                'browseClass' => 'btn btn-primary btn-block',
-                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                'browseLabel' =>  'Pilih Gambar',
-                'fileActionSettings' => [
-                    'showZoom' => true,
-                    'showDrag' => false,
+
+        <h4 style="margin-top:0px;"><?= Yii::t('app', 'Gambar Sampel') ?></h4>
+        <!-- <h5><?= Yii::t('app', 'Gambar') ?></h5> -->
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-8">
+            <!-- UPLOAD SECTION  -->
+                <?= FileInput::widget([
+                'model' => $sampel,
+                'attribute' => 'files[]',
+                'options' => [
+                    'multiple' => true,
+                    'accept' => 'image/*',
                 ],
-            ],
-            'pluginEvents' => [
-                'filebatchselected' => "function(event, files) {
-                    $(this).fileinput('upload');
-                }",
-                'fileuploaderror' => "function(event, data, msg) {
-                    alert(msg);
-                }",
-            ],
-        ]) ?>
+                'pluginOptions' => [
+                    'allowedFileTypes' => ['image'], // allow only images
+                    'language' => 'ms',
+                    'dropZoneTitle' => 'Tarik & Letakkan Gambar Anda Di Sini',
+                    // 'uploadUrl' => Url::to(['/makanan/handswab/file-upload']),
+                    'uploadUrl' => Url::to(['/makanan/handswab/file-upload', 'idsampel' => $sampel->ID]), //pass parameter idsampel to get current id
+                    'uploadExtraData' => ['NOSIRI' => $sampel->NOSIRI],
+                    'uploadAsync' => true,
+                    // 'maxFileCount' => 4,
+                    'maxFileSize' => 2 * 1024 * 1024,
+                    'overwriteInitial' => false,
+                    'validateInitialCount' => true,
+                    'initialPreviewAsData' => true,
+                    'initialPreview' => $option['initialPreview'],
+                    'initialPreviewConfig' => $option['initialPreviewConfig'],
+                    'purifyHtml' => true,
+                    'showCaption' => false,
+                    'showRemove' => false,
+                    'showUpload' => false,
+                    'browseClass' => 'btn btn-primary btn-block',
+                    'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                    'browseLabel' =>  'Pilih Gambar',
+                    'fileActionSettings' => [
+                        'showZoom' => true,
+                        'showDrag' => false,
+                    ],
+                ],
+                'pluginEvents' => [
+                    'filebatchselected' => "function(event, files) {
+                        $(this).fileinput('upload');
+                    }",
+                    'fileuploaderror' => "function(event, data, msg) {
+                        alert(msg);
+                    }",
+                ],
+            ]) ?>
+            </div>
         </div>
-    </div>
 
-    <!-- buttons -->
-    <div class="row">
-        <div class="col-md-12">
-            <span class="pull-right">
-                <?= Html::a('<i class="fas fa-redo-alt"></i> Set Semula', ['handswab/sampel', 'nosiri' => $model->NOSIRI], [
-                    'class' => 'btn btn-default',
-                ]) ?>
+        <!-- buttons -->
+        <div class="row">
+            <div class="col-md-12">
+                <span class="pull-right">
+                    <?= Html::a('<i class="fas fa-redo-alt"></i> Set Semula', ['handswab/sampel', 'nosiri' => $model->NOSIRI], [
+                        'class' => 'btn btn-default',
+                    ]) ?>
 
-                <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-saved"></i> Simpan', [
-                    'id' => 'action_save2close', 'class' => 'btn btn-primary', 'name' => 'action[save2close]', 'value' => 1,
-                    'title' => 'Simpan', 'aria-label' => 'Simpan', 'data-pjax' => 0,
-                ]) ?>
-            </span>
+                    <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-saved"></i> Simpan', [
+                        'id' => 'action_save2close', 'class' => 'btn btn-primary', 'name' => 'action[save2close]', 'value' => 1,
+                        'title' => 'Simpan', 'aria-label' => 'Simpan', 'data-pjax' => 0,
+                    ]) ?>
+                </span>
+            </div>
         </div>
-    </div>
 
     <?php ActiveForm::end() ?>
+
+    <hr />
 </div>
 
 

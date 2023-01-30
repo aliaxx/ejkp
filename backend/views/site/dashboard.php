@@ -17,14 +17,16 @@ $this->title = 'Dashboard';
             <?= $this->render('charts/_peniaga') ?>
         </div>
 
-        <div style="margin-top:15px;">
-            <a target="_blank" href="<?= Url::toRoute(['/site/map']) ?>" class="btn btn-info">Lihat Paparan Lokasi</a>
-        </div>
-
         <!-- <div style="margin-top:15px;">
+            <a target="_blank" href="<?= Url::toRoute(['/site/map']) ?>" class="btn btn-info">Lihat Map</a>
+        </div> -->
+<!-- 
+        <div style="margin-top:15px;">
             <?= Url::toRoute(['/site/map']) ?>
-        </div>  -->
+        </div> -->
 
-
+        <div style="margin-top:15px;">
+            <?= $this->render('charts/_map') ?>
+        </div>
 
     </div>

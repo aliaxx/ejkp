@@ -11,8 +11,7 @@ use yii\bootstrap\ActiveForm;
 $this->params['breadcrumbs'] = [
     $titleMain,
     ['label' => $title, 'url' => ['index']],
-    $model->NOSIRI,
-    'Paparan Maklumat'
+    ['label' => $this->title],
     ];
 
 ?>

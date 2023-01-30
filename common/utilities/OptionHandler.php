@@ -95,6 +95,14 @@ class OptionHandler extends \codetitan\handlers\OptionHandler
             '1' => 'Lesen',
             '2' => 'Sewa',
         ];
+
+        $data['jenis-tandas'] = [
+            '1' => 'LELAKI',
+            '2' => 'WANITA',
+            '3' => 'OKU',
+            '4' => 'UNISEX', 
+            '5' => 'KANAK-KANAK'
+        ];
         
         $data['PERANAN']['options'] = function() {
             $source = \common\models\Peranan::find()->where(['STATUS' => 1])->orderBy(['NAMAPERANAN' => SORT_ASC])->all();

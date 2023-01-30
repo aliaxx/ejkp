@@ -47,10 +47,8 @@ $data['tempatsimpanan'] = ArrayHelper::map($source, 'KODDETAIL', 'PRGN');
 
 //Get data lokasi penjaja KPN
 $data['penjaja'] = ['',''];
-// $source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.V_LOCATION_LIST")->queryAll();
-// $data['penjaja'] = ArrayHelper::map($source, 'LOCATION_ID', 'LOCATION_NAME');
-$source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.SW_LOCATIONS")->queryAll();
-$data['penjaja'] = ArrayHelper::map($source, 'ID', 'NAME');
+$source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.V_LOCATION_LIST")->queryAll();
+$data['penjaja'] = ArrayHelper::map($source, 'LOCATION_ID', 'LOCATION_NAME');
 
 //Get data Lokaliti untuk Vektor
 $source = Yii::$app->db->createCommand("SELECT * FROM  TBLOKALITI")->queryAll();
@@ -96,6 +94,7 @@ if ($model->V_ID_ALASAN) {
 $data['KATPREMIS'] = ['',''];
 $source = Yii::$app->db->createCommand("SELECT * FROM TBPARAMETER_DETAIL WHERE KODJENIS = 1")->queryAll();
 $data['KATPREMIS'] = ArrayHelper::map($source, 'KODDETAIL', 'PRGN');
+
 
 //get current date
 date_default_timezone_set("Asia/Kuala_Lumpur");
@@ -226,14 +225,14 @@ if ($model->isNewRecord) {
                     <?php if ($model->IDMODULE!="SRT" && $model->IDMODULE!="ULV" && $model->IDMODULE!="PTP" && $model->IDMODULE!="LVC"): ?>
                         <div class="col-md-6">
                             <?= $form->field($model, 'PPM_IDKATPREMIS')->widget(Select2::className(), [
-                                'data' => $data['KATPREMIS'],
-                                'options' => [
-                                    'placeholder' => '',
-                                ],
-                                'pluginOptions' => [
-                                    'allowClear' => true,
-                                ]
-                            ])->label('Kategori Premis') ?>
+                                    'data' => $data['KATPREMIS'],
+                                    'options' => [
+                                        'placeholder' => '',
+                                    ],
+                                    'pluginOptions' => [
+                                        'allowClear' => true,
+                                    ]
+                                ])->label('Kategori Premis') ?>
                             <!-- <?= $form->field($model, 'JENISPREMIS')->dropDownList(backend\modules\makanan\utilities\OptionHandler::render('jenis-premis'), ['prompt' => '']) ?> -->
                         </div>
                         <div class="col-md-6">
@@ -276,7 +275,7 @@ if ($model->isNewRecord) {
                     <?php endif; ?>
 
                     <!-- not display lokasi on kawalan, kolam & vektor -->
-                    <?php if ($model->IDMODULE!="KPN" && $model->IDMODULE!="PTS" && $model->IDMODULE!="SRT" && $model->IDMODULE!="PTP" && $model->IDMODULE!="ULV" && $model->IDMODULE!="LVC"): ?>
+                    <?php if ($model->IDMODULE!="KPN" && $model->IDMODULE!="SRT" && $model->IDMODULE!="PTP" && $model->IDMODULE!="ULV" && $model->IDMODULE!="LVC"): ?>
                         <div class="col-md-6">  
                             <?= $form->field($model, 'PRGNLOKASI')->textArea()?>
                         </div>
@@ -940,6 +939,33 @@ if ($model->isNewRecord) {
 </div>
 <?php endif; ?>
 
+
+<!-- ********** Tindakan Penguatkuasaan for PTP ************ -->
+<?php if ($model->IDMODULE=="PTP"): ?>
+   <div class="report-master-search">
+        <div class="panel panel-default no-print">
+            <div class="panel-heading">
+                <?= Yii::t('app', 'Tindakan Penguatkuasaan') ?>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">  
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'PTP_JUMKOMPAUN')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
+                            </div>
+
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'PTP_JUMNOTIS')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!-- added section for PTP only -nor11112022 -->
 <!-- ********** Extra forms for PTP ************ -->
 <?php if ($model->IDMODULE=="PTP"): ?>
@@ -1049,6 +1075,90 @@ if ($model->isNewRecord) {
                         <div class="col-md-6"  style="margin-top:10px;">
                             <?= $form->field($model, 'V_BILPREMIS3')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
                             <?= $form->field($model, 'V_JUMRACUN3', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->V_JUMRACUN1)]]); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- split section for LVC only -nor11112022 --> 
+<!-- ********** Extra forms for LVC ************ -->
+<?php if ($model->IDMODULE=="LVC"): ?>
+    <!-- AKTIVITI LARVACIDING -->
+    <div class="report-master-search">
+        <div class="panel panel-default no-print">
+            <div class="panel-heading">
+                <?= Yii::t('app', 'Aktiviti Larvaciding') ?>
+            </div>
+            <div class="panel-body">
+            <h6 style="margin-top:10px;font-weight: bold;"><?= Yii::t('app', 'A. Maklumat Premis Disembur Larvisid - Spraycan') ?></h6>
+                <div class="row">
+                    <div class="col-md-6" style="margin-top:10px;" >
+                        <?= $form->field($model, 'V_SASARANPREMIS1')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]); ?> 
+                        <?= $form->field($model, 'V_BILBEKAS1')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]); ?> 
+                        <!-- <?= $form->field($model, 'V_JUMRACUN1', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->V_JUMRACUN1)]]); ?>     -->
+                        <?= $form->field($model, 'V_JUMRACUN1', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->V_JUMRACUN1)]]); ?>
+   
+                    </div>
+                    <div class="col-md-6"  style="margin-top:10px;">
+                        <?= $form->field($model, 'V_BILPREMIS1')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
+                        <?= $form->field($model, 'V_ID_JENISRACUN1')->widget(Select2::className(), [
+                            'initValueText' => $initVal['racun'],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'placeholder' => '',
+                                'ajax' => [
+                                    'url' => $url['racun'],
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(params) { return {search:params.term, page:params.page}; }'),
+                                    'processResults' => new JsExpression('function(data, params) {
+                                        params.page = params.page || 1;
+                                        return {
+                                            results: data.results,
+                                            pagination: { more: (params.page * 20) < data.total }
+                                        };
+                                    }'),
+                                ],
+                            ],
+                            // 'options' => ['disabled' => !$model->isNewRecord],
+                            ]) ?>
+                            <?= $form->field($model, 'V_BILMESIN1')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
+                    </div>
+                </div>
+
+                <div style="margin-top:25px;">
+                    <h6 style="font-weight: bold;"><?= Yii::t('app', 'B. Maklumat Premis Disembur Larvisid - Mistblower') ?></h6>
+                    <div class="row">
+                        <div class="col-md-6" style="margin-top:10px;" >
+                            <?= $form->field($model, 'V_SASARANPREMIS2')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]); ?> 
+                            <?= $form->field($model, 'V_BILBEKAS2')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]); ?> 
+                            <?= $form->field($model, 'V_JUMRACUN2', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->V_JUMRACUN2)]]); ?>    
+                        </div>
+                        <div class="col-md-6"  style="margin-top:10px;">
+                            <?= $form->field($model, 'V_BILPREMIS2')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
+                            <?= $form->field($model, 'V_ID_JENISRACUN2')->widget(Select2::className(), [
+                                // 'initValueText' => $initVal['racun'],
+                                'pluginOptions' => [
+                                    'allowClear' => true,
+                                    'placeholder' => '',
+                                    'ajax' => [
+                                        'url' => $url['racun'],
+                                        'dataType' => 'json',
+                                        'data' => new JsExpression('function(params) { return {search:params.term, page:params.page}; }'),
+                                        'processResults' => new JsExpression('function(data, params) {
+                                            params.page = params.page || 1;
+                                            return {
+                                                results: data.results,
+                                                pagination: { more: (params.page * 20) < data.total }
+                                            };
+                                        }'),
+                                    ],
+                                ],
+                                // 'options' => ['disabled' => !$model->isNewRecord],
+                                ]) ?>
+                                <?= $form->field($model, 'V_BILMESIN2')->textInput(['type' => 'number', 'min' => ($model->isNewRecord ? 1 : 0)]) ?> 
                         </div>
                     </div>
                 </div>
@@ -1268,7 +1378,6 @@ $(document).ready(function () {
     $('#lawatanmain-form').submit(function(event){
         $('#lawatanmain-_inputahlipasukan').val(_tmpMultiSelect);
         return true;
-
     });
 
     // checkbox conditional hide if penggredan tandas uncheck

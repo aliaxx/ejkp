@@ -16,8 +16,9 @@ return [
         'db2' => [//schema elesen
             'class' => 'yii\db\Connection',
             'dsn' => 'oci:dbname=//localhost:1521/orcl;charset=UTF8', //make sure dekat xampp/php/php.ini dah enable pdo:oci untuk access webpage.     
+            //'dsn' => 'oci:dbname=//192.168.30.76:1521/orcl;charset=UTF8', if you connected to one user database.
             'username' => 'C##ELESEN',
-            'password' => '123456',
+            'password' => '1234',
             'on afterOpen' => function ($event) {
                 $event->sender->createCommand("ALTER SESSION SET NLS_TIME_FORMAT = 'HH24:MI:SS' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_TZ_FORMAT = 'YYYY-MM-DD HH24:MI:SS TZH:TZM'")->execute();
             }
@@ -25,8 +26,9 @@ return [
         'db3' => [//schema majlis
             'class' => 'yii\db\Connection',
             'dsn' => 'oci:dbname=//localhost:1521/orcl;charset=UTF8', //make sure dekat xampp/php/php.ini dah enable pdo:oci untuk access webpage.     
+            //'dsn' => 'oci:dbname=//192.168.30.76:1521/orcl;charset=UTF8', if you connected to one user database.
             'username' => 'C##MAJLIS',
-            'password' => '123456',
+            'password' => '1234',
             'on afterOpen' => function ($event) {
                 $event->sender->createCommand("ALTER SESSION SET NLS_TIME_FORMAT = 'HH24:MI:SS' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_TZ_FORMAT = 'YYYY-MM-DD HH24:MI:SS TZH:TZM'")->execute();
             }
@@ -34,8 +36,9 @@ return [
         'db4' => [//schema ahlimajlis
             'class' => 'yii\db\Connection',
             'dsn' => 'oci:dbname=//localhost:1521/orcl;charset=UTF8', //make sure dekat xampp/php/php.ini dah enable pdo:oci untuk access webpage.     
+            //'dsn' => 'oci:dbname=//192.168.30.76:1521/orcl;charset=UTF8', if you connected to one user database.
             'username' => 'C##AHLIMAJLIS',
-            'password' => '123456',
+            'password' => '1234',
             'on afterOpen' => function ($event) {
                 $event->sender->createCommand("ALTER SESSION SET NLS_TIME_FORMAT = 'HH24:MI:SS' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_TZ_FORMAT = 'YYYY-MM-DD HH24:MI:SS TZH:TZM'")->execute();
             }
@@ -43,17 +46,9 @@ return [
         'db5' => [//schema esewa
             'class' => 'yii\db\Connection',
             'dsn' => 'oci:dbname=//localhost:1521/orcl;charset=UTF8', //make sure dekat xampp/php/php.ini dah enable pdo:oci untuk access webpage.     
+            //'dsn' => 'oci:dbname=//192.168.30.76:1521/orcl;charset=UTF8', if you connected to one user database.
             'username' => 'C##ESEWA',
-            'password' => '123456',
-            'on afterOpen' => function ($event) {
-                $event->sender->createCommand("ALTER SESSION SET NLS_TIME_FORMAT = 'HH24:MI:SS' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_TZ_FORMAT = 'YYYY-MM-DD HH24:MI:SS TZH:TZM'")->execute();
-            }
-        ],
-        'db6' => [//schema sppj
-            'class' => 'yii\db\Connection',
-            'dsn' => 'oci:dbname=//localhost:1521/orcl;charset=UTF8', //make sure dekat xampp/php/php.ini dah enable pdo:oci untuk access webpage.     
-            'username' => 'C##SPPJ',
-            'password' => '123456',
+            'password' => '1234',
             'on afterOpen' => function ($event) {
                 $event->sender->createCommand("ALTER SESSION SET NLS_TIME_FORMAT = 'HH24:MI:SS' NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_FORMAT = 'YYYY-MM-DD HH24:MI:SS' NLS_TIMESTAMP_TZ_FORMAT = 'YYYY-MM-DD HH24:MI:SS TZH:TZM'")->execute();
             }

@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\bootstrap\ActiveForm;
-use yii\helpers\ArrayHelper;
 
 use common\utilities\OptionHandler;
 use backend\modules\penyelenggaraan\models\Subunit;
@@ -25,10 +24,6 @@ $extender = \codetitan\widgets\GridNav::formatExtender(Yii::$app->controller->ro
     ['CUSTOMERID','SUBUNIT', 'PERANAN', 'DATA_FILTER', 'STATUS', 'PGNDAFTAR', 'PGNAKHIR', 'TRKHAKHIR'],
     ['PERANAN', 'DATA_FILTER', 'STATUS', 'PGNDAFTAR', 'PGNAKHIR','TRKHAKHIR'], true);
 $visible = $extender['visible'];
-
-//dropdown search dekat grid table untuk Lokasi Penjaja. 
-$source = Subunit::find()->all();
-$option['subunit'] = ArrayHelper::map($source, 'ID', 'PRGN');
 
 ?>
 
@@ -62,20 +57,14 @@ $option['subunit'] = ArrayHelper::map($source, 'ID', 'PRGN');
             ],           
             'NOKP',
             'NAMA',
-            // [
-            //     'attribute' => 'SUBUNIT',
-            //     'value' => 'subunit0.PRGN', //calling direclty from function in models -NOR26082022
-            //     // 'value' => function ($model) {//return value using $model -NOR26082022
-            //     //     return isset($model->subunit0->PRGN)?$model->subunit0->PRGN:null;                   
-            //     // },                
-            //     'visible' => in_array('SUBUNIT', $visible),
-            // ],     
             [
                 'attribute' => 'SUBUNIT',
-                'value' => 'subunit0.PRGN',
+                'value' => 'subunit0.PRGN', //calling direclty from function in models -NOR26082022
+                // 'value' => function ($model) {//return value using $model -NOR26082022
+                //     return isset($model->subunit0->PRGN)?$model->subunit0->PRGN:null;                   
+                // },                
                 'visible' => in_array('SUBUNIT', $visible),
-                'filter' => $option['subunit'],     
-            ], 
+            ],           
             [
                 'attribute' => 'PERANAN',
                 'filter' => \common\utilities\OptionHandler::render('PERANAN'),
@@ -84,14 +73,14 @@ $option['subunit'] = ArrayHelper::map($source, 'ID', 'PRGN');
                 },
                 'visible' => in_array('PERANAN', $visible),
             ],
-            // [
-            //     'attribute' => 'DATA_FILTER',
-            //     'filter' => \common\utilities\OptionHandler::render('DATA_FILTER'),
-            //     'value' => function ($model) {
-            //         return \common\utilities\OptionHandler::resolve('DATA_FILTER', $model->DATA_FILTER);
-            //     },
-            //     'visible' => in_array('DATA_FILTER', $visible),
-            // ],
+            [
+                'attribute' => 'DATA_FILTER',
+                'filter' => \common\utilities\OptionHandler::render('DATA_FILTER'),
+                'value' => function ($model) {
+                    return \common\utilities\OptionHandler::resolve('DATA_FILTER', $model->DATA_FILTER);
+                },
+                'visible' => in_array('DATA_FILTER', $visible),
+            ],
            
             [
                 'attribute' => 'STATUS',

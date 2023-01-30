@@ -15,8 +15,8 @@ class TranskolamSearch extends Transkolam
     {
         return [
             [['ID'], 'number'],
-            [['NOSIRI', 'IDPARAM', 'NILAI1', 'NILAI2', 'NILAI3', 'NILAI4',], 'safe'], //NOR03012023
-            [['PGNDAFTAR', 'TRKHDAFTAR', 'PGNAKHIR', 'TRKHAKHIR'], 'integer'],
+            [['NOSIRI', 'IDPARAM'], 'safe'],
+            [['NILAI1', 'NILAI2', 'NILAI3', 'NILAI4', 'PGNDAFTAR', 'TRKHDAFTAR', 'PGNAKHIR', 'TRKHAKHIR'], 'integer'],
         ];
     }
 

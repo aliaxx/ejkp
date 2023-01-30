@@ -492,8 +492,8 @@ class SrtController extends Controller
                     Yii::$app->session->setFlash('success', 'Berjaya mengemaskini rekod Penggunaan Racun.');
                 return $this->redirect(['racun', 'nosiri' => $model->NOSIRI]);
             }
-            // print_r($racun->errors);
-            // exit();
+            print_r($racun->errors);
+            exit();
         }
 
         return $this->render('extra/racun', [

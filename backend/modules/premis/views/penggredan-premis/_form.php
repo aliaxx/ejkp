@@ -34,8 +34,7 @@ $source = Yii::$app->db->createCommand("SELECT * FROM TBDUN")->queryAll();
 $data['IDDUN'] = ArrayHelper::map($source, 'ID', 'PRGNDUN');
 
 $data['IDLOKASI'] = ['',''];
-// $source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.V_LOCATION_LIST")->queryAll();
-$source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.SW_LOCATIONS")->queryAll();
+$source = Yii::$app->db->createCommand("SELECT * FROM C##ESEWA.V_LOCATION_LIST")->queryAll();
 
 $data['IDLOKASI'] = ArrayHelper::map($source, 'LOCATION_ID', 'LOCATION_NAME');
 

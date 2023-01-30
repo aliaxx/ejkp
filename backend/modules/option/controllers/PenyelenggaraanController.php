@@ -22,7 +22,6 @@ use backend\modules\penyelenggaraan\models\PerkaraKomponen;
 use backend\modules\penyelenggaraan\models\PerkaraKomponenPrgn;
 use backend\modules\lawatanmain\models\LawatanPemilik;
 use backend\modules\integrasi\models\Sewa;
-use backend\modules\penyelenggaraan\models\KategoriTandasvektor;
 
 
 
@@ -43,8 +42,7 @@ class PenyelenggaraanController extends Controller
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'actions' => ['param-header', 'detail', 'kod-perkara', 'kod-komponen', 'akta','pengguna', 'list', 'lokasi-am', 
-                        'pemiliklesen', 'list-petak', 'tandas'], //NOR12012023
+                        'actions' => ['param-header', 'detail', 'kod-perkara', 'kod-komponen', 'akta','pengguna', 'list', 'lokasi-am', 'pemiliklesen', 'list-petak'], //zihan
                     ],
                 ],
             ],
@@ -329,43 +327,6 @@ class PenyelenggaraanController extends Controller
             $text = $result->LOT_NO;
 
             $output['results'][] = ['id' => $result->LOT_NO, 'text' => $text];
-        }
-
-        return $output;
-    }
-
-    /**
-     * Return the list of kategori tandas //NOR12012023
-     */
-    public function actionTandas($search = null, $page = 1, $ID = null)
-    {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
-        $perPage = 20;
-        $output['results'] = [];
-
-        $query = KategoriTandasvektor::find()->where(['STATUS' => 1])->orderBy(['PRGN' => SORT_ASC]);
-
-
-        if ($ID) {
-            $query->andWhere(['ID' => $ID]);
-        }
-
-        if (!is_null($search)) {
-            $query->andWhere(['or', ['like', 'PRGN', $search]]);
-        }
-        
-        $output['total'] = $query->count('*');
-        $results = $query->limit($perPage)->offset(($page - 1) * $perPage)->all();
-
-        // var_dump($results);
-        // exit();
-
-        foreach ($results as $result) {
-            // text
-            $text = $result->PRGN;
-
-            $output['results'][] = ['id' => $result->ID, 'text' => $text];
         }
 
         return $output;

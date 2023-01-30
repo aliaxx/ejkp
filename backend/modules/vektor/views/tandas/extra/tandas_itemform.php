@@ -156,7 +156,7 @@ $jenistandas= explode(',', $pts_jenistandas);
                 'id' => 'transtandas-jum_markah_' . $counter,
                 'autocomplete' => 'off',
                 'style' => 'height:30px; width:60px',
-                'readonly' => true,
+                'readonly' => false,
                 'max' => $tmpData['MARKAH'],
                 // 'value' => isset($tmpData) ? $tmpData['J'] : null,
                 // 'value' => $gredtandas->markahtandas['total'],
@@ -273,12 +273,8 @@ $('#transtandas-form').yiiActiveForm('add', {
     
 });
 
-
 $(document).ready(function(){
-
-    // $('#'transtandas-' .  $jenistandas1 . '_' . $counter).change(function() {
-        // alert($jenistandas1);
-
+    
     $('#transtandas-ML_$counter').change(function() {
 
         
@@ -305,9 +301,43 @@ $(document).ready(function(){
         }
 
         var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
+    
+        var jum = $('#transtandas-jum_markah_$counter').val(jum);
+
+        var markah = $('#transtandas-markah_$counter').val();
+
+        if (jum.val() > markah) {
+
+            alert('Jumlah Markah Tidak Boleh Lebih daripada Markah');
+
+            ml1=$('#transtandas-ML_$counter').val(0);
+
+
+            alert(ml1.val());
+            // alert($('#transtandas-ML_$counter').val(0));
+
+            if (typeof ml1 == 'undefined') {
+                ml1=0;
+            }
+            if (typeof mw1 == 'undefined') {
+            mw1=0;
+            }
+            if (typeof mu1 == 'undefined') {
+            mu1=0;
+            }
+            if (typeof mo1 == 'undefined') {
+            mo1=0;
+            }
+            if (typeof mk1 == 'undefined') {
+            mk1=0;
+            }
+
+            
+            var jum = Number(ml1.val())+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
         
 
-        var jum = $('#transtandas-jum_markah_$counter').val(jum);
+            var jum = $('#transtandas-jum_markah_$counter').val(jum);
+        }
         
     });
 
@@ -337,8 +367,40 @@ $(document).ready(function(){
         }
 
         var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
+        
 
         var jum = $('#transtandas-jum_markah_$counter').val(jum);
+
+        var markah = $('#transtandas-markah_$counter').val();
+        
+        if (jum.val() > markah) {
+
+            alert('Jumlah Markah Tidak Boleh Lebih daripada Markah');
+
+            mw1=$('#transtandas-MW_$counter').val(0);
+
+            if (typeof ml1 == 'undefined') {
+                ml1=0;
+            }
+            if (typeof mw1 == 'undefined') {
+            mw1=0;
+            }
+            if (typeof mu1 == 'undefined') {
+            mu1=0;
+            }
+            if (typeof mo1 == 'undefined') {
+            mo1=0;
+            }
+            if (typeof mk1 == 'undefined') {
+            mk1=0;
+            }
+
+            
+            var jum = Number(ml1)+Number(mw1.val())+Number(mo1)+Number(mu1)+Number(mk1);
+        
+
+            var jum = $('#transtandas-jum_markah_$counter').val(jum);
+        }
         
     });
 
@@ -367,8 +429,44 @@ $(document).ready(function(){
         }
        
         var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
+        
 
         var jum = $('#transtandas-jum_markah_$counter').val(jum);
+
+        var markah = $('#transtandas-markah_$counter').val();
+
+        // alert(jum);
+        // alert(markah);
+        // alert(markah);
+
+        if (jum.val()  > markah) {
+
+            alert('Jumlah Markah Tidak Boleh Lebih daripada Markah');
+
+            mo1=$('#transtandas-MO_$counter').val(0);
+
+            if (typeof ml1 == 'undefined') {
+                ml1=0;
+            }
+            if (typeof mw1 == 'undefined') {
+            mw1=0;
+            }
+            if (typeof mu1 == 'undefined') {
+            mu1=0;
+            }
+            if (typeof mo1 == 'undefined') {
+            mo1=0;
+            }
+            if (typeof mk1 == 'undefined') {
+            mk1=0;
+            }
+
+            
+            var jum = Number(ml1)+Number(mw1)+Number(mo1.val())+Number(mu1)+Number(mk1);
+        
+
+            var jum = $('#transtandas-jum_markah_$counter').val(jum);
+        }
         
     });
 
@@ -397,9 +495,43 @@ $(document).ready(function(){
             mk1=0;
         }
 
-        var jum = Number(ml1)+Number(mw1)+Number(mo1)+ Number(mu1) + Number(mk1);
+        var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
         
+
         var jum = $('#transtandas-jum_markah_$counter').val(jum);
+
+        var markah = $('#transtandas-markah_$counter').val();
+
+        if (jum.val()  > markah) {
+
+            alert('Jumlah Markah Tidak Boleh Lebih daripada Markah');
+            
+            mu1=$('#transtandas-MU_$counter').val(0);
+
+            if (typeof ml1 == 'undefined') {
+                ml1=0;
+            }
+            if (typeof mw1 == 'undefined') {
+            mw1=0;
+            }
+            if (typeof mu1 == 'undefined') {
+            mu1=0;
+            }
+            if (typeof mo1 == 'undefined') {
+            mo1=0;
+            }
+            if (typeof mk1 == 'undefined') {
+            mk1=0;
+            }
+
+            
+            var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1.val())+Number(mk1);
+        
+
+            var jum = $('#transtandas-jum_markah_$counter').val(jum);
+        }
+
+        
         
     });
 
@@ -428,11 +560,41 @@ $(document).ready(function(){
         mk1=0;
         }
 
-        var jum = Number(ml1)+Number(mw1)+Number(mo1)+ Number(mu1) + Number(mk1);
+        var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1);
         
 
         var jum = $('#transtandas-jum_markah_$counter').val(jum);
+
+        var markah = $('#transtandas-markah_$counter').val();
+
+        if (jum.val()  > markah) {
+
+            alert('Jumlah Markah Tidak Boleh Lebih daripada Markah');
+
+            mk1=$('#transtandas-MK_$counter').val(0);
+
+            if (typeof ml1 == 'undefined') {
+                ml1=0;
+            }
+            if (typeof mw1 == 'undefined') {
+            mw1=0;
+            }
+            if (typeof mu1 == 'undefined') {
+            mu1=0;
+            }
+            if (typeof mo1 == 'undefined') {
+            mo1=0;
+            }
+            if (typeof mk1 == 'undefined') {
+            mk1=0;
+            }
+
+            
+            var jum = Number(ml1)+Number(mw1)+Number(mo1)+Number(mu1)+Number(mk1.val());
         
+
+            var jum = $('#transtandas-jum_markah_$counter').val(jum);
+        }
     });
     
     

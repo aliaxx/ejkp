@@ -59,8 +59,8 @@ if ($files = $model->getAttachments()) {
             'NAMAPEKERJA',
             'NOKP',
             [
-                'attribute' => 'JENIS',
-                'value' => OptionHandler::resolve('jantina', $model->JENIS),
+                'attribute' => 'JANTINA',
+                'value' => OptionHandler::resolve('jantina', $model->JANTINA),
             ],
             [
                 'attribute' => 'TY2',

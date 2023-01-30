@@ -31,11 +31,6 @@ use yii\web\View;
             'active' => in_array(Yii::$app->controller->action->id, ['bekas', 'bekas-view']), //sampel is action -NOR22092022
         ],
         [
-            'label' => 'Penguatkuasaan',
-            'url' => ['penguatkuasaan', 'nosiri' => $model->NOSIRI], //sasaran = action , nosiri = parameter -NOR22092022
-            'active' => in_array(Yii::$app->controller->action->id, ['penguatkuasaan', 'penguatkuasaan-view']), //sampel is action -NOR22092022
-        ],
-        [
             'label' => 'Gambar',
             'url' => ['gambar', 'nosiri' => $model->NOSIRI],
             'active' => Yii::$app->controller->action->id == 'gambar',

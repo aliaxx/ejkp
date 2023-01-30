@@ -15,8 +15,7 @@ class Module extends \yii\base\Module
            'dun' => ['class' => '\backend\modules\penyelenggaraan\modules\dun\Module'],
            'subunit' => ['class' => '\backend\modules\penyelenggaraan\modules\subunit\Module'],
            'perundangan' => ['class' => '\backend\modules\penyelenggaraan\modules\perundangan\Module'],
-           'lokaliti' => ['class' => '\backend\modules\penyelenggaraan\modules\lokaliti\Module'],
-           'tandas' => ['class' => '\backend\modules\penyelenggaraan\modules\tandas\Module'] //NOR12012023
+           'lokaliti' => ['class' => '\backend\modules\penyelenggaraan\modules\lokaliti\Module']
          ];
     }
 }

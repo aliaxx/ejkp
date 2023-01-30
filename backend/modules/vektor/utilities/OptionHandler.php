@@ -75,17 +75,6 @@ class OptionHandler extends \common\utilities\OptionHandler
             2 => '> 24 Jam',
         ];
 
-        $data['aktiviti'] = [
-            1 => 'Spraycan',
-            2 => 'Mistblower',
-            3 => 'Abating'
-        ];
-
-        $data['jenis-tindakan'] = [
-            1 => 'Kompaun',
-            2 => 'Notis',
-        ];
-
         return $data;
     }
 }

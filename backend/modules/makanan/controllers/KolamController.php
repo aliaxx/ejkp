@@ -306,6 +306,8 @@ class KolamController extends Controller
                 if ($modelkolam) {
                     $htmlOutput = [];
                     foreach ($modelkolam as $key => $item) { 
+                        // var_dump($item);
+                        // exit;
                         $data = [];
                         $modelkolam = new Transkolam();
                         $data['IDPARAM'] = $item->IDPARAM;

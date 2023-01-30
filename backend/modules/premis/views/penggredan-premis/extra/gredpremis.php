@@ -54,7 +54,7 @@ if($gredpremis->transpremisrec){
     ]); ?>
 
     <?= \codetitan\widgets\ActionBar::widget([
-        'permissions' => ['save2close' => Yii::$app->access->can('PPM-write')],
+        'permissions' => ['save2close' => Yii::$app->access->can('penggredan-premis-write')],
     ]) ?>
 
     <div style="margin-top:61px;"></div>

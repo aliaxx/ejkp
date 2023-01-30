@@ -129,15 +129,19 @@ class PenggredanPremisController extends Controller
      */
     public function actionCreate()
     {
+        
         $model = new LawatanMain();
 
        if($model){
+        
        // if (Yii::$app->request->post('action')) {
             $actionHandler = new ActionHandler($model);
             $action = $actionHandler->execute();
             
             if ($model->load(Yii::$app->request->post())) {
                 // var_dump($model);
+                // exit;
+                // var_dump('hai');
                 // exit;
                 $idzon_amarr = explode('-', $model->PRGNLOKASI_AM);     //$model->PRGNLOKASI_AM from form return string, example = "1-BANDAR SRI DAMANSARA PJU 9", need to split
                 $model->IDZON_AM = $idzon_amarr[0];
@@ -147,10 +151,10 @@ class PenggredanPremisController extends Controller
                 // var_dump(implode(',', $model->JENISTANDAS_ARR));
                 // exit;
 
-                // $jenistandas = implode(',', $model->JENISTANDAS_ARR);
-                // $model->JENISTANDAS => implode(',', $model->JENISTANDAS); // save jenis tandas
-                // $tandas = implode(',', $model->JENISTANDAS); //implode return string from array
-                // $model->PTS_JENISTANDAS = $jenistandas ;
+                // $jenistandas = implode(',', $model->JENISTANDAS_ARR); //implode return string from array
+                $model->PTS_JENISTANDAS =  implode(',', $model->PTS_JENISTANDAS); //save jenis tandas
+                $model->BILTANDAS =  implode(',', $model->BILTANDAS); //save bilangan tandas
+                
                 $model->setNosiri('PPM');  //set No Siri.
               
                 if ($model->TRKHMULA) $model->TRKHMULA = DateTimeHelper::convert($model->TRKHMULA, true);
@@ -209,8 +213,8 @@ class PenggredanPremisController extends Controller
                 // $model->IDZON_AM = $idzon_amarr[0];
                 // $model->PRGNLOKASI_AM = $idzon_amarr[1];
                 
-                // $jenistandas = implode(',', $model->JENISTANDAS_ARR);//implode return string from array
-                // $model->PTS_JENISTANDAS = $jenistandas ; // save jenis tandas
+                $model->PTS_JENISTANDAS =  implode(',', $model->PTS_JENISTANDAS); //save jenis tandas
+                $model->BILTANDAS =  implode(',', $model->BILTANDAS);
                 
                 if ($model->TRKHMULA) $model->TRKHMULA = DateTimeHelper::convert($model->TRKHMULA, true);
                 if ($model->TRKHTAMAT) $model->TRKHTAMAT = DateTimeHelper::convert($model->TRKHTAMAT, true);
@@ -221,6 +225,7 @@ class PenggredanPremisController extends Controller
 
                 if ($model->save(false)) {
                     
+                    Transtandas::deleteAll(['NOSIRI' => $model->NOSIRI]);
                     $model->saveMaklumatPemilik();//save maklumat lesen & sewa
                     $model->saveAhliPasukan(); //save maklumat pasukan
 
@@ -531,6 +536,28 @@ class PenggredanPremisController extends Controller
             'titleMain' => 'Premis Makanan',
             'model' => $model,
         ]);
+    }
+
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->STATUS == OptionHandler::STATUS_TIDAK_AKTIF) {
+            $model->STATUS = OptionHandler::STATUS_AKTIF;
+        } else {
+            $model->STATUS = OptionHandler::STATUS_TIDAK_AKTIF;
+        }
+
+        if ($model->save(false)) {
+
+            // record log
+            $log = new LogActions;
+            $log->recordLog($log::ACTION_DELETE, $model);
+            
+            Yii::$app->session->setFlash('success', 'Status rekod telah berjaya ditukar.');
+
+            $actionHandler = new ActionHandler($model);
+            $actionHandler->gotoReturnUrl($model);
+        }
     }
 
     

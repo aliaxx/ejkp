@@ -28,8 +28,6 @@ use backend\modules\vektor\models\BekasPtp;
 use backend\modules\vektor\models\BekasLvc;
 use backend\modules\vektor\models\SasaranLvc;
 use backend\modules\vektor\models\SasaranSrt;
-use backend\modules\vektor\models\Lvcaktiviti;
-use backend\modules\integrasi\models\SewaLocationList; 
 
 
 /**
@@ -126,9 +124,13 @@ use backend\modules\integrasi\models\SewaLocationList;
  * @property int|null $PTP_BILBEKASMUSNAH
  * @property string|null $NAMAPENERIMA
  * @property string|null $NOKPPENERIMA
+ * @property float|null $PTP_JUMKOMPAUN
+ * @property float|null $PTP_JUMNOTIS
  * @property float|null $PTM_ISTANDAS
  * @property float|null $STATUSLESENPREMIS
  * @property float|null $JENISCARIAN
+ * @property float|null $V_BILMESIN1
+ * @property float|null $V_BILMESIN2
  */
 class LawatanMain extends \yii\db\ActiveRecord
 {    
@@ -170,8 +172,8 @@ class LawatanMain extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID', 'ULV_AMAUNRACUN', 'ULV_AMAUNPELARUT', 'ULV_AMAUNPETROL', 'V_JUMRACUN1', 'V_JUMRACUN2', 'V_JUMRACUN3',  
-            'PTM_ISTANDAS', 'STATUSLESENPREMIS', 'JENISCARIAN'], 'number'],
+            [['ID', 'ULV_AMAUNRACUN', 'ULV_AMAUNPELARUT', 'ULV_AMAUNPETROL', 'V_JUMRACUN1', 'V_JUMRACUN2', 'V_JUMRACUN3', 'PTP_JUMKOMPAUN', 
+            'PTP_JUMNOTIS', 'PTM_ISTANDAS', 'STATUSLESENPREMIS', 'JENISCARIAN', 'V_BILMESIN1', 'V_BILMESIN2'], 'number'],
             [['TRKHMULA', 'TRKHTAMAT', 'NOSIRI','JENISPREMIS','ID_TUJUAN','PRGNLOKASI_AM','PRGNLOKASI','PKK_NAMAPENYELIA', 'PKK_NOKPPENYELIA', 
             'PKK_JENISKOLAM','PKK_JENISRAWATAN','ALAMAT1','KETUAPASUKAN', 'NAMAPENERIMA','NOKPPENERIMA', 
             'SMM_ID_JENISSAMPEL', 'SDR_ID_STOR','STATUSLESENPREMIS', 'NAMAPEMOHON', 'IDLOKASI'], 'required'],   
@@ -201,7 +203,8 @@ class LawatanMain extends \yii\db\ActiveRecord
             [['IDLOKASI1','LOKASIPETAK', 'NOSEWA1', 'NOLESEN1', 'NOSSM'], 'safe'],
             [['PTS_JENISTANDAS', 'BILTANDAS'],  'string', 'max' => 20],
             [['PPM_IDKATPREMIS', 'PTS_JENISTANDAS', 'BILTANDAS'], 'safe'],
-
+            
+            
             [['stampFrom', 'stampTo'], 'safe'],
             ['TRKHMULA', 'datetime', 'timestampAttribute' => 'stampFrom', 'format' => 'php:Y-m-d H:i:s'],
             ['TRKHTAMAT', 'datetime', 'timestampAttribute' => 'stampTo', 'format' => 'php:Y-m-d H:i:s'],
@@ -308,9 +311,13 @@ class LawatanMain extends \yii\db\ActiveRecord
             'PTP_BILBEKASMUSNAH' => 'Bil Bekas Musnah',
             'NAMAPENERIMA' => 'Nama Penerima',
             'NOKPPENERIMA' => 'No. KP Penerima',
+            'PTP_JUMKOMPAUN' => 'Jumlah Kompaun',
+            'PTP_JUMNOTIS' => 'Jumlah Notis',
             'PTM_ISTANDAS' => 'Pemeriksaan Tandas',
             'STATUSLESENPREMIS' => 'Status Lesen Premis',
             'JENISCARIAN' => 'Jenis Carian',
+            'V_BILMESIN1' => 'Bil. Mesin',
+            'V_BILMESIN2' => 'Bil. Mesin',
             'NOLESEN'=> 'No. Lesen',
             'NOSSM'=> 'No. Daftar SSM',
             'NOKPPEMOHON' => 'No. KP Pemilik/Pemohon',
@@ -390,10 +397,9 @@ class LawatanMain extends \yii\db\ActiveRecord
             ->onCondition(['KODJENIS' => 24]);
     }
 
-    public function getLokasi0() 
+    public function getLokasi0()
     {
-        // return $this->hasOne(Sewa::className(), ['LOCATION_ID' => 'IDLOKASI']);
-        return $this->hasOne(SewaLocationList::className(), ['ID' => 'IDLOKASI']); //NOR26012023 
+        return $this->hasOne(Sewa::className(), ['LOCATION_ID' => 'IDLOKASI']);
     }
 
     public function getGerai0()
@@ -874,32 +880,8 @@ class LawatanMain extends \yii\db\ActiveRecord
             ->onCondition(['KODJENIS' => 1]);
     }
 
-    /**
+     /**
      * @return yii\db\ActiveQuery
-     */
-    public function getAktivitilvc1() //nor25112022
-    {
-        return $this->hasOne(Lvcaktiviti::className(), ['NOSIRI' => 'NOSIRI'])->onCondition(['AKTIVITI' => 1]);  
-    }
-
-    /**
-     * @return yii\db\ActiveQuery
-     */
-    public function getAktivitilvc2() //nor25112022
-    {
-        return $this->hasOne(Lvcaktiviti::className(), ['NOSIRI' => 'NOSIRI'])->onCondition(['AKTIVITI' => 2]);  
-    }
-
-    /**
-     * @return yii\db\ActiveQuery
-     */
-    public function getAktivitilvc3() //nor25112022
-    {
-        return $this->hasOne(Lvcaktiviti::className(), ['NOSIRI' => 'NOSIRI'])->onCondition(['AKTIVITI' => 3]);  
-    }
-
-    /**
-    * @return yii\db\ActiveQuery
      * tambah text dekat item_jenistandas (counter)
      */
     public function getCountertandas()
@@ -911,6 +893,5 @@ class LawatanMain extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TransTandas::className(), ['NOSIRI' => 'NOSIRI']);
     }
-
 
 }

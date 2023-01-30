@@ -220,7 +220,7 @@ class Transgerai extends \yii\db\ActiveRecord
                 
         }
 
-        // var_dump($this->NOTEL);
+        var_dump($this->NOTEL);
         // exit;
 
         $model->NOTEL = $this->NOTEL;

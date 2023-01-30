@@ -6,9 +6,6 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use common\models\LoginForm;
-use common\utilities\ActionHandler;
-
-use backend\modules\lawatanmain\models\LawatanMain;
 
 /**
  * Site controller
@@ -25,11 +22,11 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'error', 'map'],
+                        'actions' => ['index', 'login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'dashboard'],
+                        'actions' => ['logout', 'dashboard','map'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,6 +68,11 @@ class SiteController extends Controller
        
     }
 
+    public function actionMap()
+    {
+        return $this->render('charts/_map');
+    }
+
     public function actionLogin()
     {
         //Yii::$app->user->login(\common\models\PrUser::findOne(['USERID' => 1]));
@@ -94,54 +96,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-
-    /**
-     * Display map at dashboard based on selected month 
-     */
-    // public function actionMap()
-    // {
-    //     $model= new LawatanMain;
-
-    //     ActionHandler::setReturnUrl();
-       
-    //     if (Yii::$app->request->post('action')) {
-    //         $dataProvider = $model->search(Yii::$app->request->post());
-
-                
-    //             $actionHandler->execute();
-    //         }
-
-    //     return $this->render('backend/views/site/charts/map', [
-    //         'model' => $model,
-    //     ]);
-    // }
-    protected function findModel($id)
-    {
-        if (($model = LawatanMain::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-
-    public function actionMap()
-    {
-        $model = new LawatanMain;
-
-        if (Yii::$app->request->post('action')) {
-            $actionHandler = new ActionHandler($model);
-            $actionHandler->execute();
-        
-            // var_dump($model);
-            // exit;
-        }
-
-        return $this->render('charts/_map', [
-            'model' => $model,
-            'TRKHMULA' => $model->TRKHMULA
-        ]);
     }
 }
