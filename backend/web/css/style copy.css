@@ -1,0 +1,61 @@
+@import url(//fonts.googleapis.com/css?family=Poppins:300,400,500,600);
+body {font-family:'Poppins',sans-serif;font-weight:400;}
+
+.wrap {margin:0;padding:0;}
+.horizontal-divider {border-color:#ccc;}
+
+.select2-selection__clear {padding-top:3px;}
+div.required > label:after {content:'*';color:#d9534f;margin-left:2px;}
+
+/* NAVIGATION */
+.wrap {padding-top:0 !important;}
+.navbar {background-color:#f0f2f5;border-bottom-color:#404c57;}
+.navbar .navbar-brand, .navbar .dropdown-toggle {color:#304156 !important;}
+.navbar .container {width:100%;}
+.navbar .active > a, .navbar .dropdown > a {background-color:#f0f2f5 !important;}
+.navbar-header-group {font-size:20px;font-weight:500;margin-top:8px;width:235px;text-align:center;}
+.navbar-header-group a {color:#304156;}
+.navbar-header-group a:hover {text-decoration:none;}
+.actionbar {display:none;}
+.gridnav {margin-bottom:5px;}
+.gridnav-container .grid-view td {vertical-align:top !important;white-space:pre-wrap;}
+.gridnav-container {overflow-x:auto;}
+.kv-sidenav {width:255px;}
+
+/* NAV USER MENU */
+.nav .dropdown-toggle {padding-top:10px !important;margin-bottom:6px;}
+.nav-user {font-size:12px;line-height:16px;float:left;margin-right:5px;}
+
+.action-buttons {text-align:right;margin-bottom:10px;}
+.action-buttons .btn {width:100px;margin-left:5px !important;}
+.action-buttons .dropdown-menu {font-size:12px;margin-left:5px;}
+.action-buttons .btn-dropdown {color:#333;width:100%;border:none;border-radius:none;
+    margin:0 !important;padding:6px 12px !important;text-align:left;outline: none;}
+
+/*LOGIN PAGE*/
+.iems-login-container {width:670px;margin:0 auto;background:rgba(128, 150, 148, 0.395);padding:5px 50px 20px;color:#fff;margin-top:15%;border-radius:10px;}
+.iems-login-title {text-align:center;}
+.iems-login-title > div:nth-child(1) img {width:120px;}
+.iems-login-title > div:nth-child(2) {font-size:20px;font-weight:bold;}
+.iems-login-title > div:nth-child(3) {font-size:14px;font-weight:bold;margin:15px 0 20px;}
+.iesm-login-footer {width:900px;margin:0 auto;text-align:center;color:#fff;border-top:1px solid #fff;padding-top:20px;padding-bottom:20px;margin-top:30px;}
+
+/*OVERRIDE KARTIK SELECT2 FOR USAGE OF SMALLER INPUT SIZE*/
+.table .select2-container--krajee .select2-selection--single {height: 26px;padding: 4px 24px 6px 12px !important}
+.table .select2-container--krajee .select2-selection--single .select2-selection__arrow {height: 25px}
+.table .select2-selection__clear {padding:0px}
+
+/*FORM*/
+.iems-form {width:800px;}
+.iems-label {float:left;width:150px;margin-right:10px;}
+.iems-input {float:left;width:calc(100% - 175px);}
+
+.iems-form-half {width:50%;float:left;}
+
+h3 {padding:10px;margin-bottom:5px;background:#ffffff;text-transform:uppercase;}
+h4 {padding:10px;margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc;text-transform:uppercase;}
+
+.iems-action-buttons {text-align:right;margin-right:15px;}
+.table .input-group-addon {padding: 4px 12px !important}
+
+.date input:read-only {background-color:#fff;}

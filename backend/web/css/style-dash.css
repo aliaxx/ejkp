@@ -1,0 +1,83 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.border {
+  padding: 16px;
+  border:.10rem solid rgb(219, 218, 218) !important;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+.text1 {padding:10px;text-transform:uppercase;font-size:15px; color: #4e73df;text-align:left;}
+.p1 {padding:10px;margin-top:-15px;font-size:20px; color: #5a5c69 ;text-align:left;}
+.text2 {padding:10px;text-transform:uppercase;font-size:15px; color: #1cc88a;text-align:left;}
+.text3 {padding:10px;text-transform:uppercase;font-size:15px; color: #36b9cc;text-align:left;}
+.text4 {padding:10px;text-transform:uppercase;font-size:15px; color: #bf00ff ;text-align:left;}
+
+/* Style the counter cards */
+.card1 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-left:.50rem solid #4e73df !important;
+}
+.card2 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-left:.50rem solid #1cc88a !important;
+}
+.card3 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-left:.50rem solid #36b9cc !important;
+}
+.card4 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-left:.50rem solid #bf00ff !important;
+}
+
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 100%;
+  padding-left:80%;
+  margin-top: -20%;
+  margin-bottom: 5%;
+}
+
+.icon {
+  color: #dddfeb !important;
+}
